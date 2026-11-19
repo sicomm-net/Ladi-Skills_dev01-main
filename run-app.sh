@@ -2,7 +2,7 @@
 # export NODE_ENV="production"                                                          # .(60921.02.1 RAM Set it)
   export NODE_ENV="development"                                                         # .(60921.02.2 RAM Set it)
 
-  nPrj=50
+  nPrj=29
   nStg=0; if [ "${NODE_ENV}" == "production" ]; then nStg=1; fi                         # .(61103.02.1 RAM let getStgNo set it).(60921.02.2 RAM Use it)
 # ---------------------------------------------------
 
