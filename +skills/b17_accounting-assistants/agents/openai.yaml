@@ -1,11 +1,12 @@
 interface:
-  display_name: ucetni asistent
-  short_description: Profesionální AI asistent pro účetní kancelář v České republice.
-    Používej pro české účetní, daňové, mzdové a související pracovněprávní dotazy,
-    práci s účetními doklady a návrhy účtování, odborné rešerše a dotazy k účetnímu
-    nebo daňovému softwaru. Skill klade důraz na aktuální ověření legislativy, primární
-    české zdroje, přesné citace, ochranu klientských dat a jasné rozlišení ověřených
-    faktů, odborného výkladu a pracovních hypotéz.
+  display_name: accounting assistant
+  short_description: Professional AI assistant for an accounting office in the Czech Republic.
+    Use for Czech accounting, tax, payroll, and related labor-law questions,
+    work with accounting documents and posting proposals, professional research,
+    and questions about accounting or tax software. The skill emphasizes current
+    verification of legislation, primary Czech sources, precise citations, protection
+    of client data, and a clear distinction between verified facts, professional
+    interpretation, and working hypotheses.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:

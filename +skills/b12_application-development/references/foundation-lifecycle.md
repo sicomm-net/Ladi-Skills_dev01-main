@@ -2,51 +2,51 @@
 
 ## Authority and stage boundaries
 
-Tento kontrakt je **povinná metodika**, nikoliv produktová specifikace. Funkční požadavky a legitimní retenční povinnosti určuje schválený projektový zdroj (`spec/current/` nebo ekvivalent). Nepřepisuj specifikaci pomocí metodiky, starého kódu ani screenshotu. Neprováděj globální změny za provozu bez autorizace, odpovídajícího risk tier a ověřeného rollbacku.
+This contract is a **mandatory methodology**, not a product specification. Functional requirements and legitimate retention obligations are determined by the approved project source (`spec/current/` or equivalent). Do not override the specification with the methodology, old code, or a screenshot. Do not make global changes in a live system without authorization, an appropriate risk tier, and a verified rollback.
 
-**Greenfield pořadí:** schválená koncepce → funkční/datový koncept → Application Foundation → Foundation Gate `PASS` → první funkční UI implementace → controlled change. Projekt bez UI nemusí vytvářet CSS; důvod `NOT_APPLICABLE` zdokumentuj. Technický prototyp před schválenou Foundation lze použít jako zahoditelný průzkum, nikdy ne jako nepřiznaný produkční designový základ.
+**Greenfield order:** approved concept → functional/data concept → Application Foundation → Foundation Gate `PASS` → first functional UI implementation → controlled change. A project without a UI need not create CSS; document the `NOT_APPLICABLE` reason. A technical prototype built before the approved Foundation may be used as disposable exploration, never as an undeclared production design base.
 
 ## A. Design System First
 
-Před první produkční obrazovkou vytvoř a nech schválit verzovaný **Design Foundation Contract** zahrnující:
+Before the first production screen, create and have approved a versioned **Design Foundation Contract** covering:
 
-1. Názvy a umístění společných zdrojů: design tokeny (barvy, typography, spacing, radii, borders, state indicators), theme/light-dark podle zadání a breakpoints.
-2. Základní společné layouty, navigaci, typografickou hierarchii, tabulky, formuláře, tlačítka, dialogy, inputy, upozornění, stavy loading/empty/error a dostupnost (focus/keyboard/contrast).
-3. CSS/style ownership: kde se smějí přidávat globální tokeny a komponenty; pravidlo zákazu page-specific duplikace bez schválené výjimky; technologii přiměřenou zvolenému stacku (nemusí jít o jediný fyzický CSS soubor).
-4. Owner sign-off, verzi/revizi, rozsah Freeze, referenční pohledy, povolené výjimky a schválené metody změny.
+1. Names and locations of shared sources: design tokens (colors, typography, spacing, radii, borders, state indicators), theme/light-dark as specified, and breakpoints.
+2. Basic shared layouts, navigation, typographic hierarchy, tables, forms, buttons, dialogs, inputs, alerts, loading/empty/error states, and accessibility (focus/keyboard/contrast).
+3. CSS/style ownership: where global tokens and components may be added; a rule prohibiting page-specific duplication without an approved exception; technology appropriate to the chosen stack (it need not be a single physical CSS file).
+4. Owner sign-off, version/revision, Freeze scope, reference views, permitted exceptions, and approved change methods.
 
-**Gate PASS** jen s dosažitelným kontraktem v Git a základními použitelnými komponentami. UI change preflight musí citovat konkrétní shared tokens/components a vysvětlit, zda jde o reuse, approved system change nebo approved exception. Globální vizuální změny proveď centrálně a s cílenou regresí všech dotčených component/layout families, ne sérií page-level patchů. Komponentní testy a reprezentativní screenshoty jsou evidence; owner UAT je samostatný acceptance krok.
+**Gate PASS** only with a reachable contract in Git and basic usable components. The UI change preflight must cite the specific shared tokens/components and explain whether it is a reuse, an approved system change, or an approved exception. Make global visual changes centrally, with targeted regression of all affected component/layout families, not through a series of page-level patches. Component tests and representative screenshots are evidence; owner UAT is a separate acceptance step.
 
-## B. Data Lifecycle by Design: principiální život a smrt
+## B. Data Lifecycle by Design: principled life and death
 
-Při každé nové tabulce, sloupci s akumulující historií, objektovém úložišti, blobu, příloze, cache, logu, exportu, souboru, frontě, AI artefaktu či jejich kopii založ **Lifecycle Manifest**:
+For every new table, column accumulating history, object storage, blob, attachment, cache, log, export, file, queue, AI artifact, or copy of any of these, create a **Lifecycle Manifest**:
 
-| Pole | Otázka |
+| Field | Question |
 |---|---|
-| `object` / `storage` | Co se ukládá a kde, včetně kopií / indexů? |
-| `purpose` | Která schválená funkce/provozní potřeba to vyžaduje? |
-| `owner_scope` | Kdo vlastní data a jaká tenant izolace platí? |
-| `created_by` / `terminal_state` | Kdy vznikají a kdy přestanou být aktivní? |
-| `retention_rule` / `start_event` | Jak dlouho od které měřitelné události? |
-| `delete_or_anonymize` | Jak, kde a jak často se uklidí? |
-| `holds_dependencies` | Právní/účetní hold, aktivní operace, integrity, idempotence? |
-| `copies_and_backups` | Kdy expirují kopie a backupy podle schválené politiky? |
-| `evidence_monitoring` | Jak ověřit funkci cleanupu a nárůst objemu? |
+| `object` / `storage` | What is stored and where, including copies / indexes? |
+| `purpose` | Which approved function/operational need requires it? |
+| `owner_scope` | Who owns the data and what tenant isolation applies? |
+| `created_by` / `terminal_state` | When is it created and when does it stop being active? |
+| `retention_rule` / `start_event` | How long, counted from which measurable event? |
+| `delete_or_anonymize` | How, where, and how often is it cleaned up? |
+| `holds_dependencies` | Legal/accounting hold, active operations, integrity, idempotence? |
+| `copies_and_backups` | When do copies and backups expire under the approved policy? |
+| `evidence_monitoring` | How to verify that cleanup works and track volume growth? |
 
-**Retenční pravidla podle druhu, ne jediné konstanty:** obchodní/účetní zdroje podle schválených a právních pravidel; aktivní konfigurace po dobu potřeby; dokončená diagnostická/provozní data krátce, pokud nejsou chráněna konkrétním důvodem. Aplikace může mít projektově schválenou lhůtu 30 dní pro uzavřené reminder delivery záznamy; **nesmí ji bez schválení automaticky použít na jiné entity**.
+**Retention rules by kind, not a single constant:** business/accounting sources per approved and legal rules; active configuration for as long as needed; completed diagnostic/operational data briefly, unless protected by a specific reason. An application may have a project-approved 30-day period for closed reminder delivery records; **it must not automatically apply it to other entities without approval**.
 
-**Bezpečnost cleanupu:** úklid je idempotentní, dávkovaný, restartovatelný, tenant-safe, pozorovatelný, testovaný na hranicích a neodstraňuje data aktivních/UNCERTAIN/PENDING operací ani minimální dedup metadata dříve, než skončí jejich prokazatelná ochranná doba. Nezakládej duplicitní archiv mailového obsahu, pokud jej nevyžaduje schválený produktový účel; technická evidence je jiná kategorie. Skutečný mail provider nemusí uchovávat SMTP odeslání ve složce Sent, ověř integration-specific behavior.
+**Cleanup safety:** cleanup is idempotent, batched, restartable, tenant-safe, observable, tested at the boundaries, and does not remove data of active/UNCERTAIN/PENDING operations or minimal dedup metadata before their demonstrable protection period ends. Do not create a duplicate archive of mail content unless an approved product purpose requires it; technical records are a different category. A real mail provider may not keep SMTP sends in the Sent folder; verify integration-specific behavior.
 
-Smazání řádku se nerovná okamžitému fyzickému uvolnění místa; plánuj údržbu DB, bloby, soubory, tmp copies, cache, log rotation, indexy a lifecycle backupů podle použité platformy. Provedení cleanupu na existujících uživatelských datech je **destruktivní operace** s odděleným schválením a rollback/recovery, ne automatický důsledek přidání tohoto Skill pravidla.
+Deleting a row does not mean immediate physical release of space; plan DB maintenance, blobs, files, tmp copies, cache, log rotation, indexes, and backup lifecycles according to the platform used. Running cleanup on existing user data is a **destructive operation** requiring separate approval and rollback/recovery, not an automatic consequence of adding this Skill rule.
 
-## C. Ověřovací checklist a přenos do Codexu
+## C. Verification checklist and handoff to Codex
 
-**GREENFIELD:** existence a owner approval Design Foundation před prvním produkčním UI; reuse pro dvě různé stránky; lifecycle manifest pro typovou DB entitu, dočasný soubor a job; explicitní výjimky pro protected records; `FOUNDATION_GATE: PASS/BLOCKED`.
+**GREENFIELD:** existence and owner approval of the Design Foundation before the first production UI; reuse across two different pages; a lifecycle manifest for a typical DB entity, a temporary file, and a job; explicit exceptions for protected records; `FOUNDATION_GATE: PASS/BLOCKED`.
 
-**MID-CYCLE:** audit existující design token/component contract a existujících datových kategorií; seznam mezer; bezpečný doplňkový plán bez redesignu či automatického mazání; complete `spec/current/` manifest gate zůstává nedotčen.
+**MID-CYCLE:** audit the existing design token/component contract and existing data categories; list of gaps; a safe supplementary plan without redesign or automatic deletion; the complete `spec/current/` manifest gate remains untouched.
 
-**CONTROLLED CHANGE:** nové UI zdůvodňuje reuse existujících tokenů; změna tématu se schvaluje jako projektová global design revize, ne lokální hack; nová queue/log má retention+hold+cleanup test; již běžící task neprochází tichým repinem metodiky.
+**CONTROLLED CHANGE:** new UI justifies its reuse of existing tokens; a theme change is approved as a project-wide design revision, not a local hack; a new queue/log has a retention + hold + cleanup test; an already running task is not silently re-pinned to the methodology.
 
-**Průkazné testy:** automatický check existence design kontraktu a lifecycle manifestu; UI testy sdílených komponent a relevantních viewportů; TTL boundary, retries, active hold, idempotence, no duplicate, tenant isolation, DB+file cleanup integrity a monitoring pro konkrétní technologie. Evidence rozlišuje `PASS`, `NOT_RUN`, `UNVERIFIED`; owner acceptance není odvozena z build pass.
+**Evidence tests:** automatic check for the existence of the design contract and lifecycle manifest; UI tests of shared components and relevant viewports; TTL boundary, retries, active hold, idempotence, no duplicates, tenant isolation, DB+file cleanup integrity, and monitoring for the specific technologies. Evidence distinguishes `PASS`, `NOT_RUN`, `UNVERIFIED`; owner acceptance is not derived from a build pass.
 
-**Codex handoff fields:** `methodology_revision`, `design_contract_ref + revision + freeze_scope` nebo `NOT_APPLICABLE`, `lifecycle_manifest_ref + affected_objects` nebo `NO_NEW_DATA`, `foundation_gate`, `exception_approvals`, `tests`, `owner_uat`. Odkazuj na projektové soubory, nezaváděj duplicitní zákaznickou specifikaci do masteru.
+**Codex handoff fields:** `methodology_revision`, `design_contract_ref + revision + freeze_scope` or `NOT_APPLICABLE`, `lifecycle_manifest_ref + affected_objects` or `NO_NEW_DATA`, `foundation_gate`, `exception_approvals`, `tests`, `owner_uat`. Link to project files; do not introduce a duplicate customer specification into the master.

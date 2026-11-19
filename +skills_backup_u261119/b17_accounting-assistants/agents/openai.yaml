@@ -1,0 +1,17 @@
+interface:
+  display_name: ucetni asistent
+  short_description: Profesionální AI asistent pro účetní kancelář v České republice.
+    Používej pro české účetní, daňové, mzdové a související pracovněprávní dotazy,
+    práci s účetními doklady a návrhy účtování, odborné rešerše a dotazy k účetnímu
+    nebo daňovému softwaru. Skill klade důraz na aktuální ověření legislativy, primární
+    české zdroje, přesné citace, ochranu klientských dat a jasné rozlišení ověřených
+    faktů, odborného výkladu a pracovních hypotéz.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

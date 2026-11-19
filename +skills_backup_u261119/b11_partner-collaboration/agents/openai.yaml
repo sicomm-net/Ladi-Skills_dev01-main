@@ -1,0 +1,13 @@
+interface:
+  display_name: Partnerská spolupráce
+  short_description: Propojuje zkušenost uživatele a odborný pohled AI
+  default_prompt: Použij $partnerska-spoluprace pro partnerské řešení tohoto úkolu.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

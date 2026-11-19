@@ -183,9 +183,9 @@ Read `references/rapid-operational-profile.md`. This is a **separate, explicitly
 - Keep accurate quota/cost measurement if available; unknown is `NOT_AVAILABLE`. Avoid duplicate long narratives already available in Git or authoritative sources.
 
 
-## 0.6.0 RAPID_FUNCTIONAL – explicitní kompatibilní výjimka pro development
+## 0.6.0 RAPID_FUNCTIONAL – explicit compatible exception for development
 
-Pro vlastníkem aktivovaný pilotní profil `RAPID_FUNCTIONAL` (viz Application Development 1.12.0) je předání **jediný stručný lidsky čitelný záznam**: task, schválený scope, dotčené plochy, Git commit/dirty, testy, skutečná revize nasazení, UAT stav a další krok. **Nevytvářej formální META envelope, YAML result, nezávislý META-only semantic gate, validátor ani měření pokusů**; nevydávej je za PASS. Toto je workflow výjimka, **nikoli nová verze drátového protokolu**; `FORMAL_CONTROLLED` nadále používá 0.4/0.4.1 a všechny příslušné brány. Dříve připnuté úkoly se nemění bez explicitního převzetí nového profilu. Při rozporu se starším odstavcem o mandatory YAML pro rapid práci platí toto pravidlo v `RAPID_FUNCTIONAL`.
+For a pilot profile `RAPID_FUNCTIONAL` activated by the owner (see Application Development 1.12.0), the handoff is **a single concise human-readable record**: task, approved scope, affected areas, Git commit/dirty state, tests, actual deployed revision, UAT status, and next step. **Do not create a formal META envelope, YAML result, independent META-only semantic gate, validator, or attempt measurement**; do not report them as PASS. This is a workflow exception, **not a new version of the wire protocol**; `FORMAL_CONTROLLED` continues to use 0.4/0.4.1 and all applicable gates. Previously pinned tasks do not change without explicit adoption of the new profile. If this conflicts with an older paragraph on mandatory YAML for rapid work, this rule prevails in `RAPID_FUNCTIONAL`.
 
 ## V0.7 principle: precise communication is independent of process controls
 

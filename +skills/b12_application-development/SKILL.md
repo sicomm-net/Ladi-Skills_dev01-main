@@ -5,29 +5,29 @@ description: Spec-driven application development connecting Chat, Git, Codex and
 
 # Application Development
 
-## Verze a vlastnictví
+## Version and ownership
 
-Aktuální verze masteru: **1.13.0**.
+Current master version: **1.13.0**.
 
-Používej SemVer:
-- PATCH – oprava metodiky bez změny očekávaného workflow.
-- MINOR – nová zpětně kompatibilní schopnost nebo pravidlo.
-- MAJOR – změna architektury, odpovědností nebo kompatibility metodiky.
+Use SemVer:
+- PATCH – a methodology fix without a change in the expected workflow.
+- MINOR – a new backward-compatible capability or rule.
+- MAJOR – a change of architecture, responsibilities, or methodology compatibility.
 
-Autor, vlastník masteru a odborný správce: **Ladislav Goc**.  
-Copyright © 2026 Ladislav Goc. Všechna práva vyhrazena.
+Author, master owner, and expert administrator: **Ladislav Goc**.  
+Copyright © 2026 Ladislav Goc. All rights reserved.
 
-Tento skill je licencovatelný master. Vlastní použití autora je `author-development` deployment. Uplatňuj současně principy `master-deployment`, pokud je tento skill použit k tvorbě přenositelného produktu, skillu, agenta nebo zákaznické aplikace.
+This skill is a licensable master. The author's own use is an `author-development` deployment. Apply the principles of `master-deployment` at the same time if this skill is used to create a portable product, skill, agent, or customer application.
 
-## Účel
+## Purpose
 
-Vytvořit spolehlivou vazbu mezi prostředím, kde vzniká a schvaluje se zadání, a prostředím, kde se programuje. Nepředpokládat, že Codex automaticky vidí chat, Project Sources, rozhodnutí nebo kontext z jiné části ChatGPT. Přenést do Git repozitáře pouze řízený a jednoznačný implementační kontext a učinit jej pro Codex závazným.
+Create a reliable link between the environment where the assignment is created and approved and the environment where the programming happens. Do not assume that Codex automatically sees the chat, Project Sources, decisions, or context from another part of ChatGPT. Transfer into the Git repository only a controlled and unambiguous implementation context and make it binding for Codex.
 
-Základní model:
+Basic model:
 
 ```text
 CHAT / PROJECT SOURCES
-  analýza → rozhodnutí → specifikace → testování uživatelem
+  analysis → decision → specification → user testing
                  │
                  ▼
 GIT GOVERNANCE LAYER
@@ -35,49 +35,49 @@ GIT GOVERNANCE LAYER
                  │
                  ▼
 CODEX
-  implementace → testy → checkpoint / handoff → commit
+  implementation → tests → checkpoint / handoff → commit
                  │
                  ▼
-CHAT / UŽIVATEL
-  akceptační průchod → bug / nový požadavek / schválení
+CHAT / USER
+  acceptance walkthrough → bug / new requirement / approval
 ```
 
-## Nejdůležitější pravidla
+## Most important rules
 
-**Existující kód je důkaz aktuální implementace, nikoli důkaz zamýšleného chování.**
+**Existing code is evidence of the current implementation, not evidence of the intended behavior.**
 
-**Git repozitář je trvalý stav vývoje; konkrétní Codex session, účet nebo workspace je nahraditelný pracovník.**
+**The Git repository is the durable state of development; a specific Codex session, account, or workspace is a replaceable worker.**
 
-Nikdy neodvozuj funkční požadavek pouze ze starého kódu, migrace, prototypu, README, screenshotu nebo historické implementace, pokud není výslovně převzat do aktuálního autoritativního zadání.
+Never derive a functional requirement solely from old code, a migration, a prototype, a README, a screenshot, or a historical implementation unless it is explicitly adopted into the current authoritative assignment.
 
-## 1. Nejprve určit režim
+## 1. First determine the mode
 
-Rozliš:
+Distinguish:
 
-- **GREENFIELD** – nový projekt bez významné existující implementace.
-- **MID-CYCLE ADOPTION** – projekt už běží a metodika se zavádí dodatečně.
-- **CONTROLLED CHANGE** – governance už existuje a řeší se další změna.
+- **GREENFIELD** – a new project without a significant existing implementation.
+- **MID-CYCLE ADOPTION** – the project is already running and the methodology is being introduced after the fact.
+- **CONTROLLED CHANGE** – governance already exists and a further change is being handled.
 
-Při MID-CYCLE ADOPTION nikdy nezačínej reorganizací nebo mazáním. Nejdříve zmapuj zdroje, aktuální Git stav, rozpracované změny, dokumentaci a způsob spuštění aplikace. Zachovej možnost návratu.
+For MID-CYCLE ADOPTION, never start with reorganization or deletion. First map the sources, the current Git state, work in progress, documentation, and how the application is run. Preserve the ability to roll back.
 
-## 2. Auditovat zdroje před předáním Codexu
+## 2. Audit sources before handing over to Codex
 
-Pokud jsou dostupné Project Sources, přílohy, dokumentace nebo repozitář, roztřiď je do kategorií:
+If Project Sources, attachments, documentation, or a repository are available, sort them into categories:
 
-1. **AUTHORITATIVE REQUIREMENTS** – schválené funkční zadání a novější schválené změny.
-2. **STRUCTURAL COMPANION** – ER model, schéma, API kontrakt nebo jiný strojově čitelný model, jehož autorita je přesně vymezena.
-3. **DEVELOPER CONTEXT** – aktuální lokální README, build/test/run postup a bezpečný handoff.
-4. **IMPLEMENTATION STATE** – zdrojový kód, migrace, seed data, compose soubory; nejsou zdrojem požadavků.
-5. **TRANSIENT EVIDENCE** – screenshoty, jednorázové výpisy, testovací exporty, Git bundle, dočasné handoffy.
-6. **LEGACY / EXCLUDE** – staré specifikace, prototypy a materiály, které Codex pro aktuální změnu nepotřebuje.
+1. **AUTHORITATIVE REQUIREMENTS** – the approved functional assignment and newer approved changes.
+2. **STRUCTURAL COMPANION** – an ER model, schema, API contract, or another machine-readable model whose authority is precisely defined.
+3. **DEVELOPER CONTEXT** – the current local README, build/test/run procedure, and a safe handoff.
+4. **IMPLEMENTATION STATE** – source code, migrations, seed data, compose files; they are not a source of requirements.
+5. **TRANSIENT EVIDENCE** – screenshots, one-off printouts, test exports, a Git bundle, temporary handoffs.
+6. **LEGACY / EXCLUDE** – old specifications, prototypes, and materials that Codex does not need for the current change.
 
-Do Codex context layer nekopíruj mechanicky všechny Sources. Přenes pouze to, co Codex potřebuje pro správnou implementaci. Výchozí princip: **méně zdrojů, jasnější autorita**.
+Do not mechanically copy all Sources into the Codex context layer. Transfer only what Codex needs for a correct implementation. Default principle: **fewer sources, clearer authority**.
 
-Pro detailní postup a doporučenou strukturu načti `references/methodology.md`.
+For the detailed procedure and recommended structure, load `references/methodology.md`.
 
-## 3. Udržovat Git governance layer
+## 3. Maintain the Git governance layer
 
-Pro projekt, který používá Codex k implementaci, preferuj v kořeni repozitáře:
+For a project that uses Codex for implementation, prefer in the repository root:
 
 ```text
 AGENTS.md
@@ -88,34 +88,34 @@ spec/
     <approved supplements>
     <structural companion models>
 dev/
-  CODEX_HANDOFF.md   # pokud projekt používá multi-session / multi-workspace Codex
+  CODEX_HANDOFF.md   # if the project uses multi-session / multi-workspace Codex
 ```
 
-`spec/README.md` musí určit:
-- které soubory jsou autoritativní;
-- jejich pořadí precedence;
-- co je pouze technický companion;
-- co není zdrojem požadavků;
-- jak se schvaluje nová změna.
+`spec/README.md` must specify:
+- which files are authoritative;
+- their order of precedence;
+- what is only a technical companion;
+- what is not a source of requirements;
+- how a new change is approved.
 
-Kořenový `AGENTS.md` musí Codexu uložit minimálně:
-- před změnou chování přečíst relevantní `spec/`;
-- neodvozovat požadavky z existujícího kódu;
-- při konfliktu dát přednost autoritativní specifikaci;
-- neměnit autoritativní specifikaci bez výslovného pokynu;
-- při nejasnosti nebo chybějícím požadavku zastavit implementaci a nahlásit problém;
-- před implementací klasifikovat změnu;
-- po implementaci spustit relevantní testy a vytvořit ucelený commit, pokud uživatel neurčí jinak.
+The root `AGENTS.md` must instruct Codex at minimum to:
+- read the relevant `spec/` before changing behavior;
+- not derive requirements from existing code;
+- in a conflict, give precedence to the authoritative specification;
+- not change the authoritative specification without an explicit instruction;
+- in case of ambiguity or a missing requirement, stop the implementation and report the problem;
+- classify the change before implementation;
+- after implementation, run the relevant tests and create a coherent commit unless the user specifies otherwise.
 
-`dev/CODEX_HANDOFF.md` je **DEVELOPER CONTEXT / IMPLEMENTATION STATE**, nikdy zdroj funkčních požadavků. Je-li použit, verzuj jej v Gitu a udržuj pouze jeden aktuální soubor; historii poskytuje Git.
+`dev/CODEX_HANDOFF.md` is **DEVELOPER CONTEXT / IMPLEMENTATION STATE**, never a source of functional requirements. If used, version it in Git and keep only one current file; history is provided by Git.
 
-Použij šablony v `references/methodology.md`, ale přizpůsob je konkrétnímu projektu.
+Use the templates in `references/methodology.md`, but adapt them to the specific project.
 
-## 3a. Zrcadlení metodických skillů do executor prostředí
+## 3a. Mirroring methodology skills into the executor environment
 
-Nepředpokládej, že Coding AI / Codex automaticky vidí ChatGPT Skills, jejich katalog nebo jejich interní soubory. Pokud aktuální workflow vyžaduje metodický skill, který executor prostředí neumí přímo načíst, vytvoř v Git repozitáři **řízené lokální zrcadlo pouze potřebných metodických skillů**.
+Do not assume that the Coding AI / Codex automatically sees ChatGPT Skills, their catalog, or their internal files. If the current workflow requires a methodology skill that the executor environment cannot load directly, create in the Git repository a **controlled local mirror of only the necessary methodology skills**.
 
-Preferovaná struktura:
+Preferred structure:
 
 ```text
 ai/
@@ -126,17 +126,17 @@ ai/
         ...
 ```
 
-Pravidla:
-- zrcadli pouze skilly skutečně potřebné pro execution workflow; nekopíruj mechanicky celý ChatGPT skill katalog;
-- lokální zrcadlo je **EXECUTION METHODOLOGY / DEVELOPER CONTEXT**, nikoli zdroj produktových požadavků;
-- produktové požadavky zůstávají pouze v autoritativní project-spec vrstvě podle `spec/README.md`;
-- u každého zrcadleného skillu eviduj název, verzi/protocol revision a původ (master skill), aby bylo zřejmé, jaká metodika je v repozitáři použita;
-- při aktualizaci master skillu aktualizuj zrcadlo řízeně a samostatně; neprováděj tichou změnu během implementace business feature;
-- pokud executor umí skill načíst nativně, preferuj nativní zdroj; lokální mirror používej jako explicitní fallback / portable context layer;
-- secrets, zákaznická data ani deployment-specific citlivé hodnoty do mirroru nepatří;
-- `AGENTS.md` musí jasně rozlišit `spec/current/**` (CO má produkt dělat) od `ai/skills/**` (JAK má executor pracovat).
+Rules:
+- mirror only the skills actually needed for the execution workflow; do not mechanically copy the whole ChatGPT skill catalog;
+- the local mirror is **EXECUTION METHODOLOGY / DEVELOPER CONTEXT**, not a source of product requirements;
+- product requirements remain only in the authoritative project-spec layer per `spec/README.md`;
+- for each mirrored skill, record the name, version/protocol revision, and origin (master skill), so it is clear which methodology is used in the repository;
+- when updating the master skill, update the mirror in a controlled and separate way; do not make a silent change during implementation of a business feature;
+- if the executor can load the skill natively, prefer the native source; use the local mirror as an explicit fallback / portable context layer;
+- secrets, customer data, and deployment-specific sensitive values do not belong in the mirror;
+- `AGENTS.md` must clearly distinguish `spec/current/**` (WHAT the product should do) from `ai/skills/**` (HOW the executor should work).
 
-Doporučený projektový invariant:
+Recommended project invariant:
 
 ```text
 spec/current/** = authoritative product behavior
@@ -145,88 +145,88 @@ code            = implementation state / evidence
 handoff         = current continuation state
 ```
 
-Pokud prompt odkazuje na metodický skill, který executor nevidí, nesmí tvrdit, že ho použil. Buď:
-1. načte odpovídající lokální mirror z `ai/skills/`, nebo
-2. task označí jako metodicky blokovaný a požádá o zpřístupnění instrukcí.
+If a prompt refers to a methodology skill that the executor cannot see, it must not claim to have used it. It must either:
+1. load the corresponding local mirror from `ai/skills/`, or
+2. mark the task as methodologically blocked and ask for the instructions to be made available.
 
-Pro formální handoffy mezi orchestrátorem a Codexem zrcadli společně i všechny přímo závislé metodické skilly/protokoly, například `ai-meta-handoff`, pokud je požadován `Application Development` workflow.
+For formal handoffs between the orchestrator and Codex, also mirror together all directly dependent methodology skills/protocols, for example `ai-meta-handoff`, if the `Application Development` workflow requires it.
 
-## 4. Klasifikovat každou funkční změnu
+## 4. Classify every functional change
 
-Před předáním Codexu zařaď změnu právě do jedné hlavní kategorie:
+Before handing over to Codex, classify the change into exactly one main category:
 
 ### BUG_AGAINST_SPEC
-Kód neodpovídá již schválenému zadání.
+The code does not match the already approved assignment.
 
-Požaduj:
-- identifikaci relevantní části specifikace;
-- opravu implementace, ne přepis specifikace podle kódu;
-- regresní test odpovídající chybě.
+Require:
+- identification of the relevant part of the specification;
+- a fix of the implementation, not a rewrite of the specification to match the code;
+- a regression test matching the bug.
 
 ### APPROVED_SPEC_CHANGE
-Uživatel schválil novou nebo změněnou funkci a ta je nejprve zapsána do řízené specifikace nebo schváleného doplňku.
+The user approved a new or changed function and it is first written into the controlled specification or an approved supplement.
 
-Požaduj:
-- identifikaci novějšího schváleného požadavku;
-- implementaci právě tohoto rozsahu;
-- aktualizaci testů.
+Require:
+- identification of the newer approved requirement;
+- implementation of exactly this scope;
+- an update of the tests.
 
 ### REQUIREMENT_NOT_FOUND
-Požadované chování není v autoritativních zdrojích dostatečně určeno.
+The required behavior is not sufficiently determined in the authoritative sources.
 
-Neprogramuj domněnku. Vrať rozhodnutí do Chatu/specifikační fáze.
+Do not program a guess. Return the decision to the Chat/specification phase.
 
 ### IMPLEMENTATION_ONLY
-Refaktor, build, tooling, test infrastruktura nebo jiná změna bez změny funkčního chování.
+A refactor, build, tooling, test infrastructure, or another change without a change in functional behavior.
 
-Ověř, že opravdu nemění požadované chování, a drž změnu oddělenou od funkčních změn.
+Verify that it really does not change the required behavior, and keep the change separate from functional changes.
 
-## 5. Oddělit role Chat a Codex
+## 5. Separate the roles of Chat and Codex
 
 ### Chat / Sources
-Používej pro:
-- funkční analýzu a rozhodování;
-- diskusi variant;
-- práci s autoritativním zadáním;
-- zapisování schválených změn;
-- uživatelské akceptační testování;
-- přípravu přesného handoffu pro Codex.
+Use for:
+- functional analysis and decision-making;
+- discussion of options;
+- work with the authoritative assignment;
+- recording approved changes;
+- user acceptance testing;
+- preparing a precise handoff for Codex.
 
 ### Codex
-Používej pro:
-- rozsáhlejší úpravy kódu;
-- refaktory;
-- migrace;
-- testy;
-- programátorské opravy;
-- vytvoření commitů a technického handoffu.
+Use for:
+- more extensive code changes;
+- refactors;
+- migrations;
+- tests;
+- programming fixes;
+- creating commits and the technical handoff.
 
-Nedovol Codexu nahrazovat produktové rozhodnutí, které není ve specifikaci.
+Do not allow Codex to replace a product decision that is not in the specification.
 
-## 6. Bezpečný Git postup
+## 6. Safe Git procedure
 
-Před větší změnou:
-- ověř kořen repozitáře, branch a `git status`;
-- pokud je working tree dirty, nejprve zjisti, komu změny patří a co obsahují;
-- nikdy automaticky neprováděj reset/restore/checkout rozpracované práce;
-- odděl governance commit od implementačních commitů;
-- nemíchej nesouvisející změny do jednoho commitu;
-- eviduj build/test stav před a po změně.
+Before a larger change:
+- verify the repository root, branch, and `git status`;
+- if the working tree is dirty, first find out who owns the changes and what they contain;
+- never automatically reset/restore/checkout work in progress;
+- separate the governance commit from implementation commits;
+- do not mix unrelated changes into one commit;
+- record the build/test state before and after the change.
 
-Při práci s uživatelem, který chce postupovat po jednotlivých příkazech, dávej **jeden bezpečný Bash příkaz na krok** a čekej na výsledek.
+When working with a user who wants to proceed command by command, give **one safe Bash command per step** and wait for the result.
 
 ## 7. Multi-session / multi-account / multi-workspace Codex continuity
 
-Použij tento režim, pokud dlouhá implementace může přesáhnout jednu Codex session, uživatel může přepnout účet/workspace nebo quota může přerušit běh.
+Use this mode if a long implementation may exceed a single Codex session, the user may switch account/workspace, or a quota may interrupt the run.
 
-### 7.1 Persistentní handoff
+### 7.1 Persistent handoff
 
-Použij verzovaný `dev/CODEX_HANDOFF.md`. Udržuj v něm minimálně:
+Use a versioned `dev/CODEX_HANDOFF.md`. Keep in it at minimum:
 
-- čas poslední aktualizace;
-- repo root, branch a poslední ověřený HEAD;
-- aktivní autoritativní task / addendum;
-- stav `IN_PROGRESS` / `READY_FOR_UAT` / `BLOCKED`;
+- time of the last update;
+- repo root, branch, and last verified HEAD;
+- active authoritative task / addendum;
+- status `IN_PROGRESS` / `READY_FOR_UAT` / `BLOCKED`;
 - completed;
 - in progress;
 - not started;
@@ -236,106 +236,106 @@ Použij verzovaný `dev/CODEX_HANDOFF.md`. Udržuj v něm minimálně:
 - tests already passed;
 - known blockers / decisions;
 - working-tree warnings;
-- přesný další krok;
+- exact next step;
 - safe continuation instruction.
 
-Neukládej do handoffu hesla, API keys, e-maily účtů ani jiné secrets. Identita workspace/accountu může být zmíněna pouze jako neškodná provozní poznámka, pokud je to užitečné.
+Do not store passwords, API keys, account emails, or other secrets in the handoff. The workspace/account identity may be mentioned only as a harmless operational note, if useful.
 
-### 7.2 Quota-aware režim
+### 7.2 Quota-aware mode
 
-Pokud Codex zná zbývající procenta relevantních limitů, řiď se tvrdými prahy pro **každý** relevantní limit, zejména 5-hour a weekly quota:
+If Codex knows the remaining percentages of the relevant limits, follow hard thresholds for **each** relevant limit, especially the 5-hour and weekly quota:
 
-- **> 20 %**: normální práce;
-- **20 % až > 10 %**: `CHECKPOINT_AWARE` – nezačínej zbytečně široký nový blok, po významném posunu aktualizuj handoff;
-- **<= 10 %**: `MANDATORY_HANDOFF` – nezahajuj nový významný feature block, migraci nebo široký refaktor. Prioritou je stabilizace a předání.
+- **> 20 %**: normal work;
+- **20 % to > 10 %**: `CHECKPOINT_AWARE` – do not start an unnecessarily broad new block, update the handoff after significant progress;
+- **<= 10 %**: `MANDATORY_HANDOFF` – do not start a new significant feature block, migration, or broad refactor. The priority is stabilization and handover.
 
-Quota exhaustion je očekávaná hranice session, nikoli chyba.
+Quota exhaustion is an expected session boundary, not an error.
 
-V `MANDATORY_HANDOFF`:
-1. dokonči pouze bezpečně dokončitelný atomický krok;
-2. nespouštěj nový široký zásah;
-3. aktualizuj `dev/CODEX_HANDOFF.md`;
-4. ověř repo root, branch, HEAD, `git status` a změněné soubory;
-5. označ completed / in progress / not started / untested;
-6. uveď přesný next step;
-7. vytvoř `NEXT CODEX PROMPT` pro další session/workspace;
-8. necommituj pouze proto, že quota dochází; commituj jen hotový a testovaný logický celek, pokud to workflow dovoluje.
+In `MANDATORY_HANDOFF`:
+1. finish only an atomic step that can be safely completed;
+2. do not launch a new broad intervention;
+3. update `dev/CODEX_HANDOFF.md`;
+4. verify the repo root, branch, HEAD, `git status`, and changed files;
+5. mark completed / in progress / not started / untested;
+6. state the exact next step;
+7. create a `NEXT CODEX PROMPT` for the next session/workspace;
+8. do not commit merely because the quota is running out; commit only a finished and tested logical unit, if the workflow allows it.
 
-### 7.3 Převzetí jiným Codexem
+### 7.3 Takeover by another Codex
 
-Nový Codex musí před pokračováním:
-1. přečíst `AGENTS.md`, `spec/README.md`, relevantní `spec/current/` a `dev/CODEX_HANDOFF.md`;
-2. ověřit repo root, branch, HEAD a `git status`;
-3. porovnat handoff se skutečným working tree;
-4. nahlásit nesoulad před pokračováním;
-5. pokračovat až po ověření skutečného stavu.
+Before continuing, the new Codex must:
+1. read `AGENTS.md`, `spec/README.md`, the relevant `spec/current/`, and `dev/CODEX_HANDOFF.md`;
+2. verify the repo root, branch, HEAD, and `git status`;
+3. compare the handoff with the actual working tree;
+4. report any mismatch before continuing;
+5. continue only after verifying the actual state.
 
-**Handoff je navigační pomůcka, nikoli důkaz repository state. Git working tree je skutečnost o implementaci; `spec/current/` je autorita o zamýšleném chování.**
+**The handoff is a navigation aid, not proof of the repository state. The Git working tree is the truth about the implementation; `spec/current/` is the authority about the intended behavior.**
 
-### 7.4 Povinný výstup končící session
+### 7.4 Mandatory output at the end of a session
 
-Při handoffu vrať uživateli:
-- stručný session summary;
-- stav quota triggeru;
-- zda byl `dev/CODEX_HANDOFF.md` aktualizován;
-- přesný `NEXT CODEX PROMPT`, který lze vložit v jiné Codex session, účtu nebo workspace.
+At a handoff, return to the user:
+- a brief session summary;
+- the state of the quota trigger;
+- whether `dev/CODEX_HANDOFF.md` was updated;
+- the exact `NEXT CODEX PROMPT` that can be pasted into another Codex session, account, or workspace.
 
-### 7.5 Checkpoint-based continuation a context efficiency
+### 7.5 Checkpoint-based continuation and context efficiency
 
-Po bezpečně ověřeném checkpointu používej princip **verify once → work narrowly → verify at coherent boundary**. Bezpečnost nesmí vést k mechanickému opakovanému čtení celé historie projektu nebo opakování drahých kontrol bez změny vstupů.
+After a safely verified checkpoint, use the principle **verify once → work narrowly → verify at a coherent boundary**. Safety must not lead to mechanical repeated reading of the whole project history or to repeating expensive checks without a change of inputs.
 
-Při převzetí checkpointu vždy ověř minimálně repo root, branch, exact HEAD, `git status`, staging, aktivní autoritativní task/revizi a soulad aktuálního handoffu se skutečným working tree. Pokud se governance nebo autoritativní task od posledního checkpointu nezměnily, nepovažuj úplné opakované čtení všech starších specifikací za výchozí postup.
+When taking over a checkpoint, always verify at minimum the repo root, branch, exact HEAD, `git status`, staging, the active authoritative task/revision, and the consistency of the current handoff with the actual working tree. If the governance or the authoritative task has not changed since the last checkpoint, do not consider full repeated reading of all older specifications the default procedure.
 
-Po úspěšném takeoveru:
-- čti celý aktuální autoritativní task a pouze relevantní části dalších autoritativních dokumentů; starší dokument otevři v plném rozsahu jen při konkrétní závislosti, konfliktu, nejasnosti nebo explicitním odkazu;
-- handoff a implementační report používej jako navigační current-state vrstvu; nečti opakovaně historické checkpointy vložené pod aktuální stav, pokud je Git historie zachovává;
-- neprováděj znovu repository-wide scan, když current handoff přesně určuje soubory/komponenty aktuálního bloku; rozšiř kontrolu až při nesouladu nebo chybě;
-- neopakuj již PASSnuté testy, buildy, manifesty a drahé integrační kontroly, pokud aktuální změna nemění jejich vstupy, závislosti nebo bezpečnostní předpoklady; vždy však spusť testy přímo dotčeného bloku a povinné závěrečné regrese;
-- drahé preservation/fingerprint/health kontroly proveď minimálně při takeoveru, na konci koherentního bloku a před deploymentem/destruktivním krokem; mezi těmito body používej lehčí kontrolu, pokud se chráněný stav nemohl změnit;
-- u velkých generovaných sad proveď automatickou validaci celého korpusu a nákladnou vizuální/manual kontrolu na deterministickém reprezentativním matrixu pokrývajícím všechny layout/scenario family; při anomálii rozšiř vizuální kontrolu na postižené případy;
-- pokud se objeví změněný HEAD, neočekávaný dirty stav, konflikt specifikací, selhání invariantu, neplatný checkpoint, změna relevantního schématu nebo `REQUIREMENT_NOT_FOUND`, přepni zpět do široké verifikace a nepokračuj z předpokladů.
+After a successful takeover:
+- read the entire current authoritative task and only the relevant parts of other authoritative documents; open an older document in full only for a concrete dependency, conflict, ambiguity, or explicit reference;
+- use the handoff and the implementation report as a navigational current-state layer; do not repeatedly read historical checkpoints embedded under the current state if the Git history preserves them;
+- do not perform a repository-wide scan again when the current handoff exactly specifies the files/components of the current block; widen the check only on a mismatch or an error;
+- do not repeat tests, builds, manifests, and expensive integration checks that already PASSed if the current change does not alter their inputs, dependencies, or security assumptions; always, however, run the tests of the directly affected block and the mandatory final regressions;
+- perform expensive preservation/fingerprint/health checks at minimum at takeover, at the end of a coherent block, and before a deployment/destructive step; between these points use a lighter check if the protected state could not have changed;
+- for large generated sets, perform automatic validation of the whole corpus and costly visual/manual checks on a deterministic representative matrix covering all layout/scenario families; on an anomaly, widen the visual check to the affected cases;
+- if a changed HEAD, an unexpected dirty state, a conflict of specifications, a failed invariant, an invalid checkpoint, a change of a relevant schema, or `REQUIREMENT_NOT_FOUND` appears, switch back to broad verification and do not continue from assumptions.
 
-`dev/CODEX_HANDOFF.md` a implementační report udržuj jako **current-state-first** dokumenty. Neakumuluj do jejich aktivní části celé předchozí handoffy. Historii poskytuje Git. Pokud je starší historie ponechána ve stejném souboru, aktuální prefix musí jednoznačně označit, co je aktivní, a continuation prompt má výslovně zakázat opakované čtení historické části bez důvodu.
+Keep `dev/CODEX_HANDOFF.md` and the implementation report as **current-state-first** documents. Do not accumulate whole previous handoffs in their active part. History is provided by Git. If older history is left in the same file, the current prefix must unambiguously mark what is active, and the continuation prompt must explicitly forbid repeated reading of the historical part without reason.
 
-Tato optimalizace nikdy nesnižuje autoritu `spec/current/`, Git safety, UAT ochranu, destructive-operation gates ani povinné finální testy.
+This optimization never reduces the authority of `spec/current/`, Git safety, UAT protection, destructive-operation gates, or mandatory final tests.
 
 ## 8. Mid-cycle adoption
 
-Pokud je metodika nasazována uprostřed vývoje:
+If the methodology is deployed in the middle of development:
 
-1. Zastav další velké změny, ale nemaž rozpracovanou práci.
-2. Zjisti Git stav a aktuální způsob spuštění/testování.
-3. Zmapuj dostupné Sources a dokumenty.
-4. Vyber pouze aktuální autoritativní a potřebné technické zdroje.
-5. Vytvoř `spec/README.md`, `spec/current/` a kořenový `AGENTS.md`.
-6. Přenes vybrané dokumenty do repozitáře nebo vytvoř jejich řízené textové ekvivalenty.
-7. Ověř, že Codex dokáže správně zopakovat precedence bez změny kódu.
-8. Commitni governance layer samostatně.
-9. Teprve potom pokračuj v programování.
+1. Stop further large changes, but do not delete work in progress.
+2. Find out the Git state and the current way of running/testing.
+3. Map the available Sources and documents.
+4. Select only the current authoritative and necessary technical sources.
+5. Create `spec/README.md`, `spec/current/`, and the root `AGENTS.md`.
+6. Transfer the selected documents into the repository or create controlled text equivalents of them.
+7. Verify that Codex can correctly repeat the precedence without changing code.
+8. Commit the governance layer separately.
+9. Only then continue programming.
 
-První Codex handoff po zavedení metodiky má být kontrolní. Neomezuj se na obecné shrnutí: vyžádej **úplný manifest všech souborů v `spec/current/`**, potvrzení jejich čitelnosti a explicitní precedence. Codex musí pro každý soubor uvést jeho roli a případné podmínky, za kterých může mít přednost před jiným zdrojem.
+The first Codex handoff after introducing the methodology should be a verification one. Do not limit yourself to a general summary: demand a **complete manifest of all files in `spec/current/`**, confirmation of their readability, and explicit precedence. For each file, Codex must state its role and any conditions under which it may take precedence over another source.
 
-Vyžaduj závěrečný stav:
-- `GOVERNANCE STATUS: PASS` pouze tehdy, když jsou všechny požadované autoritativní soubory dostupné a precedence je jednoznačná;
-- `GOVERNANCE STATUS: BLOCKED`, pokud některý soubor nelze úplně nebo spolehlivě přečíst nebo pokud je precedence nejasná.
+Require the final state:
+- `GOVERNANCE STATUS: PASS` only when all required authoritative files are available and the precedence is unambiguous;
+- `GOVERNANCE STATUS: BLOCKED` if any file cannot be read completely or reliably or if the precedence is unclear.
 
-Pokud je stav `BLOCKED`, funkční implementaci nezačínej. Codex nesmí nahradit nečitelný baseline existujícím kódem, historickou dokumentací ani dílčím doplňkem. Pokud odpověď nesedí, neopravuj kód; oprav governance layer a kontrolu zopakuj.
+If the status is `BLOCKED`, do not start the functional implementation. Codex must not replace an unreadable baseline with existing code, historical documentation, or a partial supplement. If the answer does not match, do not fix the code; fix the governance layer and repeat the check.
 
-## 9. Handoff pro Codex
+## 9. Handoff for Codex
 
-Každé zadání Codexu má být krátké, ale musí obsahovat:
+Every assignment to Codex should be short, but must contain:
 
-- klasifikaci změny;
-- relevantní autoritativní zdroj/sekci;
-- požadovaný výsledek;
-- hranice změny;
-- povinné testy;
-- instrukci nezasahovat mimo scope;
-- quota-aware continuation pravidla u delších tasků;
-- požadavek na commit a stručný handoff, pokud je commit součástí workflow;
-- povinnost samostatného `CODEX IMPLEMENTATION META REPORT` podle protokolu `ai-meta-handoff` připnutého pro daný task (v0.4 pro nově zahajované úkoly) pro ruční přenos do manager procesu.
+- the classification of the change;
+- the relevant authoritative source/section;
+- the required result;
+- the boundaries of the change;
+- the mandatory tests;
+- an instruction not to intervene outside the scope;
+- quota-aware continuation rules for longer tasks;
+- a requirement for a commit and a brief handoff, if a commit is part of the workflow;
+- the obligation of a separate `CODEX IMPLEMENTATION META REPORT` per the `ai-meta-handoff` protocol pinned for the given task (v0.4 for newly started tasks) for manual transfer to the manager process.
 
-Pro dlouhé tasky přidej povinnost založit/aktualizovat `dev/CODEX_HANDOFF.md` a použít prahy z §7.
+For long tasks, add the obligation to create/update `dev/CODEX_HANDOFF.md` and to use the thresholds from §7.
 
 ## 9a. Mandatory independent reverse translation before Codex execution
 
@@ -352,54 +352,54 @@ The user manually copies **the complete META block** from Codex to the Chat / ma
 
 The manager compares received META to the authoritative HUMAN DEFINITION, **reconstructing the claimed implemented behavior from META alone** before comparison. Then check available code/diff/commit/test evidence independently, separating reported results from verified evidence. Record per-requirement MATCH/PARTIAL/DEVIATION/UNVERIFIED/BLOCKED and closure gate CLOSED/WAIT_FOR_UAT/RETURN_TO_CODEX/BLOCKED. No closure solely because Codex states 'done' or automated tests passed: relevant UAT and human acceptance remain required. If META block is incomplete, missing or from the wrong task/revision, request correction; do not guess or silently close.
 
-## 10. Návrat po implementaci
+## 10. Return after implementation
 
-Po Codex handoffu nepovažuj změnu za ověřenou jen proto, že build prošel.
+After a Codex handoff, do not consider the change verified merely because the build passed.
 
-Rozlišuj:
-- **implemented** – Codex změnil kód;
-- **technically tested** – prošly automatické/build testy;
-- **user-tested** – uživatel provedl scénář;
-- **accepted** – výsledek odpovídá schválenému zadání.
+Distinguish:
+- **implemented** – Codex changed the code;
+- **technically tested** – automatic/build tests passed;
+- **user-tested** – the user performed the scenario;
+- **accepted** – the result matches the approved assignment.
 
-Při uživatelském testu:
-- rozpor s existujícím zadáním → `BUG_AGAINST_SPEC`;
-- nový nápad nebo změna workflow → nejprve upravit specifikaci → `APPROVED_SPEC_CHANGE`;
-- nejasnost → `REQUIREMENT_NOT_FOUND` a diskutovat před programováním.
+In user testing:
+- a contradiction with the existing assignment → `BUG_AGAINST_SPEC`;
+- a new idea or workflow change → first modify the specification → `APPROVED_SPEC_CHANGE`;
+- ambiguity → `REQUIREMENT_NOT_FOUND` and discuss before programming.
 
-## 11. Nezaměňovat dokumenty za stejné autority
+## 11. Do not confuse documents with equal authorities
 
-Hlavní specifikace, změnový doplněk, ER model, README, handoff, kód a screenshot nejsou rovnocenné. Vždy explicitně popiš jejich roli a precedence. Pokud projekt už má vlastní pravidla autority, respektuj je a zapiš je do governance layer beze změny významu.
+The main specification, a change supplement, an ER model, a README, a handoff, code, and a screenshot are not equivalent. Always explicitly describe their role and precedence. If the project already has its own rules of authority, respect them and record them in the governance layer without changing their meaning.
 
-## Povinný výstup při nasazení metodiky
+## Mandatory output when deploying the methodology
 
-Podle rozsahu stručně zachyť:
+Depending on scope, briefly capture:
 
-1. režim: GREENFIELD / MID-CYCLE ADOPTION / CONTROLLED CHANGE;
-2. autoritativní zdroje a precedence;
-3. co se z Codex context layer vylučuje;
-4. Git governance strukturu;
-5. aktuální Git/working-tree rizika;
-6. klasifikaci nejbližší změny;
-7. testovací a akceptační postup;
-8. nejbližší konkrétní krok;
-9. u dlouhé práce continuity/handoff režim a quota thresholds.
+1. mode: GREENFIELD / MID-CYCLE ADOPTION / CONTROLLED CHANGE;
+2. authoritative sources and precedence;
+3. what is excluded from the Codex context layer;
+4. the Git governance structure;
+5. current Git/working-tree risks;
+6. classification of the nearest change;
+7. testing and acceptance procedure;
+8. the nearest concrete step;
+9. for long work, the continuity/handoff mode and quota thresholds.
 
-Nevytvářej paralelní dokumentaci bez praktické role. Aktualizuj existující source of truth, pokud už existuje.
+Do not create parallel documentation with no practical role. Update the existing source of truth if one already exists.
 
 ## Sebekontrola skillu
 
-Při změně tohoto skillu:
-- použij SemVer;
-- zachovej Ladislava Goce jako autora, vlastníka masteru a odborného správce;
-- eviduj změny v `CHANGELOG.md`;
-- testuj minimálně greenfield, mid-cycle a controlled-change scénář;
-- při mid-cycle testu ověř úplný `spec/current/` manifest, čitelnost všech souborů a správný `PASS/BLOCKED` gate;
-- při continuity testu ověř, že jiná session/workspace umí pokračovat pouze z Gitu + handoff promptu bez původního chatu;
-- při checkpoint-efficiency testu ověř, že continuation po validním checkpointu nečte mechanicky celou historii, ale zachová takeover verification, relevantní autoritu, cílené testy a závěrečné safety gates;
-- ověř oddělený Codex META completion report, ruční přenos, rekonstrukci z META-only, porovnání vůči HUMAN DEFINITION a blokování uzavření bez evidence/UAT;
-- nepřidávej konkrétní zákaznická data do masteru;
-- používej `master-deployment` pro pravidla přenositelnosti, licencování a deploymentů.
+When changing this skill:
+- use SemVer;
+- keep Ladislav Goc as author, master owner, and expert administrator;
+- record changes in `CHANGELOG.md`;
+- test at minimum a greenfield, mid-cycle, and controlled-change scenario;
+- in the mid-cycle test, verify the complete `spec/current/` manifest, the readability of all files, and the correct `PASS/BLOCKED` gate;
+- in the continuity test, verify that another session/workspace can continue only from Git + the handoff prompt without the original chat;
+- in the checkpoint-efficiency test, verify that continuation after a valid checkpoint does not mechanically read the whole history, but preserves takeover verification, the relevant authority, targeted tests, and the final safety gates;
+- verify the separate Codex META completion report, manual transfer, reconstruction from META-only, comparison against the HUMAN DEFINITION, and blocking of closure without evidence/UAT;
+- do not add specific customer data to the master;
+- use `master-deployment` for the rules of portability, licensing, and deployments.
 
 
 ## 12. Mandatory v0.3 semantic-gate deployment and measurement (since v1.6.0)
@@ -424,36 +424,36 @@ See `references/semantic-gate-deployment.md` for template, rollout and example s
 Use `references/risk-ux-contract.md` for the binding L1/L2/L3 impact classification, tier-scaled tests, UI Design Master / Design Freeze, and documented L1 mechanical exemption. Keep §12 mandatory semantic gate for every formal behavior-changing task. Do not retroactively reclassify already completed work or silently repin in-flight tasks.
 
 
-## 14. Pilot Rapid UAT – volitelný režim (since v1.8.0)
+## 14. Pilot Rapid UAT – optional mode (since v1.8.0)
 
-Pro explicitně schválený pilotní projekt používej volitelný režim **Rapid UAT** popsaný v `references/pilot-rapid-uat.md`. Cílem je zkrátit iterace, které uživatel stejně ověřuje na skutečném workflow. U čistě vizuálních L1 změn není samostatná syntetická databáze ani rozsáhlý syntetický scénář výchozím požadavkem; obvykle stačí build, scoped commit, bezpečný app-only deployment a skutečný UAT. U změn ukládání, autorizace, destruktivních operací nebo migrací zachovej odpovídající izolované kontroly bez ohledu na malý počet řádků. Režim nesnižuje ochranu živých dat, Git/rollback povinnosti ani formální sémantické brány z §12; skutečný UAT nikdy nevydávej za ekvivalent transakčního testu.
+For an explicitly approved pilot project, use the optional **Rapid UAT** mode described in `references/pilot-rapid-uat.md`. The goal is to shorten iterations that the user verifies on the real workflow anyway. For purely visual L1 changes, a separate synthetic database or an extensive synthetic scenario is not the default requirement; usually a build, a scoped commit, a safe app-only deployment, and real UAT suffice. For changes to storage, authorization, destructive operations, or migrations, keep the corresponding isolated checks regardless of the small number of rows. The mode does not reduce the protection of live data, Git/rollback obligations, or the formal semantic gates from §12; never present real UAT as equivalent to a transactional test.
 
 
 ## 15. Pilot Rapid Delivery + UI Freeze + lean handoff (since v1.9.0)
 
-Pro schválené piloty používej pravidla v `references/rapid-delivery-handoff.md`. Jejich účelem je **skutečně zkrátit celý cyklus**, nejen syntetické testy:
+For approved pilots, use the rules in `references/rapid-delivery-handoff.md`. Their purpose is to **really shorten the whole cycle**, not just the synthetic tests:
 
-- Rozliš `RAPID_OPERATIONAL` pro mechanické L1 a úzce ohraničené L1 úpravy prezentace/interakce bez změny API, persistence, autorizace nebo pracovních stavů; `FORMAL_CONTROLLED` pro L2/L3 a komplexní či nejasné změny. Zařazení nikdy neurčuj pouze podle malého diffu.
-- V `RAPID_OPERATIONAL` použij stručný HUMAN kontrakt v zadání, změnový diff, kompilaci/komponentní smoke, scoped commit, app-only deploy a vlastníkem provedený UAT. Nepouštěj syntetickou databázi ani formalizovanou nezávislou META-only rekonstrukci; režim musí být výslovně schválen a vymezen, nesmí být vydáván za úspěšně provedený formal gate.
-- `FORMAL_CONTROLLED` používá stávající plné v0.4 formal gate a cílené kontroly podle rizika. Pilotní režim není výjimkou pro významové změny obchodních procesů, ukládání, práv, databáze či integrovaných služeb.
-- Každý UI zásah musí zachovat projektový schválený Design Freeze: vycházet z existujících komponent a stylů, nepřidávat nové vizuální idiomy; případnou odchylku vyžádat schválení. Výchozí UI se nesmí považovat za požadavkový zdroj mimo schválený designový kontrakt.
-- Handoff a report v Rapid režimu se řídí `ai-meta-handoff` operational profile, pokud je dostupný. **Povinně vrať dvě samostatné části závěrečné odpovědi:** stručný HUMAN report a samostatný **úplný kopírovatelný fenced YAML blok `CODEX IMPLEMENTATION META REPORT` (`EXECUTOR_TO_ORCHESTRATOR`)**, s minimálně task ID, impact/profile, skutečným výsledkem, změněnými soubory, testy, Git refs, deploy revizí, UAT, blockers, `manager_review_status: NOT_REVIEWED` a `manual_transfer_required: true`. V Rapid režimu je META stručnější, **nikdy však volitelná**, nelze ji nahradit pouze odkazem na JSON/YAML soubor ani HUMAN summary. Nevyžaduj nezávislý formal META-only round-trip pro oprávněný L1 Rapid; neuváděj falešný gate PASS. Neopisuj původní specifikace ani staré reporty.
-- Na každém zahájení Codex session ověř dostupnost a verze skutečných souborů metodických skillů (nativní nebo `ai/skills/` v repozitáři). `AGENTS.md` má přikazovat jejich načtení. Není-li relevantní skill dostupný, nepředstírej načtení ani nevymýšlej jeho obsah; vyžádej úplný zdroj.
-- Při dostupnosti kvóty používej 20 % / 10 % checkpoint prahy; je-li kvóta nedostupná, výslovně ji označ `NOT_AVAILABLE` a checkpoint před delší prací ukládej bez odhadování. Nikdy neslibuj, že Codex vidí stav kreditů.
+- Distinguish `RAPID_OPERATIONAL` for mechanical L1 and narrowly bounded L1 presentation/interaction changes without a change of API, persistence, authorization, or work states; `FORMAL_CONTROLLED` for L2/L3 and complex or unclear changes. Never classify solely by the small size of the diff.
+- In `RAPID_OPERATIONAL`, use a concise HUMAN contract in the assignment, a change diff, compilation/component smoke, a scoped commit, an app-only deploy, and UAT performed by the owner. Do not run a synthetic database or a formalized independent META-only reconstruction; the mode must be explicitly approved and delimited, and must not be presented as a successfully performed formal gate.
+- `FORMAL_CONTROLLED` uses the existing full v0.4 formal gate and targeted checks according to risk. The pilot mode is not an exception for semantic changes to business processes, storage, permissions, the database, or integrated services.
+- Every UI intervention must preserve the project's approved Design Freeze: build on existing components and styles, do not add new visual idioms; request approval for any deviation. The default UI must not be considered a source of requirements outside the approved design contract.
+- Handoff and report in Rapid mode follow the `ai-meta-handoff` operational profile, if available. **Return two separate parts of the final response as mandatory:** a brief HUMAN report and a separate **complete copy-ready fenced YAML block `CODEX IMPLEMENTATION META REPORT` (`EXECUTOR_TO_ORCHESTRATOR`)**, with at minimum the task ID, impact/profile, actual result, changed files, tests, Git refs, deploy revision, UAT, blockers, `manager_review_status: NOT_REVIEWED`, and `manual_transfer_required: true`. In Rapid mode the META is more concise, **but never optional**, and cannot be replaced merely by a reference to a JSON/YAML file or by the HUMAN summary. Do not require an independent formal META-only round trip for an eligible L1 Rapid; do not state a false gate PASS. Do not copy the original specifications or old reports.
+- At the start of every Codex session, verify the availability and versions of the actual files of the methodology skills (native or `ai/skills/` in the repository). `AGENTS.md` should order them to be loaded. If a relevant skill is not available, do not pretend to have loaded it or invent its content; request the full source.
+- When quota is available, use the 20 % / 10 % checkpoint thresholds; if quota is unavailable, explicitly mark it `NOT_AVAILABLE` and save a checkpoint before longer work without guessing. Never promise that Codex sees the credit status.
 
-Tato volitelná provozní cesta **nemění** wire protokol formálních handoffů ani nevyjímá formální úkoly z bezpečnostních bran. Rozhodnutí, proč task splnil podmínky lehkého režimu, musí být dohledatelné.
+This optional operating path **does not change** the wire protocol of formal handoffs and does not exempt formal tasks from the safety gates. The decision why a task met the conditions for the light mode must be traceable.
 
 
-## 16. Foundation Gate, jednotný design a životní cyklus dat (od v1.10.0)
+## 16. Foundation Gate, unified design, and data lifecycle (since v1.10.0)
 
-Závazně používej `references/foundation-lifecycle.md` při **každém** GREENFIELD zahájení aplikace a při následných CONTROLLED CHANGE/MID-CYCLE úkolech, které přidávají UI, persistentní či dočasné datové objekty, fronty, exporty, logy nebo soubory. Jde o pravidla **metodiky**, nikoli o novou autoritu nad schválenou produktovou specifikací.
+Use `references/foundation-lifecycle.md` as binding for **every** GREENFIELD start of an application and for subsequent CONTROLLED CHANGE/MID-CYCLE tasks that add UI, persistent or temporary data objects, queues, exports, logs, or files. These are rules of the **methodology**, not a new authority over the approved product specification.
 
-- **Design System First:** Po schválení koncepce a před první produkční funkční obrazovkou založ schválený, verzovaný application-wide Design Foundation: design tokeny/barvy/typografii/rozestupy/breakpointy, společné komponenty, styly, layout a navigační kontrakt, accessibility a responzivitu. Vizuální rozhodnutí a scope schvaluje vlastník. Žádné nové stránky nesmějí samovolně vytvářet paralelní systém CSS, barvy nebo komponenty.
-- **Frozen Design by default:** Schválený základ je závazný i bez opakování v každém promptu. Lokální UI změny pouze znovu používají společný systém. Globální změny designu vyžadují výslovný souhlas, aktualizaci verzovaného designového kontraktu a přiměřenou regresi dotčených obrazovek; povolené lokální výjimky zdokumentuj. Freeze neznamená zákaz schváleného vývoje designu.
-- **Data Lifecycle by Design (princip života a smrti):** Před přidáním jakýchkoliv dat definuj účel, vlastníka/tenanta, rozsah a typ, dobu uchování nebo událost zániku, vazby a ochrany, mechanismus cleanupu a důkaz funkčnosti. Bez výslovně zdůvodněné výjimky nepřipouštěj bezbřehé hromadění technických dat, logů, cache, blobů, souborů, exportů, front, auditů a jejich kopií. Zohledni backupy, replicas, skutečné uvolnění místa i zásady minimalizace dat.
-- **Retence není odhad:** Konkrétní lhůty odvozuj ze schválené specifikace, provozní potřeby a aplikovatelných povinností; **30 dní není celoprojektová univerzální doba**. Neodstraňuj účetní či právně chráněné záznamy, nevyřešené operace, nezbytné anti-duplicate identifikátory ani data pod retention hold; nevyžaduj však dlouhodobý archiv bez definované hodnoty.
-- **Foundation/Change Gate:** Bez schváleného designového základu (u UI aplikace) nebo dokončené lifecycle klasifikace příslušných nových dat označ zasaženou implementaci `BLOCKED / FOUNDATION_INCOMPLETE`. U mid-cycle projektu nejprve proveď audit a zaveď chybějící základy bez automatického redesignu, destruktivního cleanupu či migrace.
-- **Handoff a testování:** Každé zadání Codexu přenáší odkazy na verzovaný designový kontrakt i lifecycle manifest pro dotčené entity; acceptance kontroluje vizuální konzistenci, retenční hranice, bezpečné výjimky a skutečně fungující úklid. Ponech všechna dřívější pravidla Git/spec precedence, bezpečnosti, risk-tier, semantic gate, UAT, pilotních výjimek i nezávislého schvalování.
+- **Design System First:** After approval of the concept and before the first production functional screen, establish an approved, versioned application-wide Design Foundation: design tokens/colors/typography/spacing/breakpoints, shared components, styles, layout and navigation contract, accessibility, and responsiveness. The owner approves the visual decisions and scope. No new pages may spontaneously create a parallel CSS system, colors, or components.
+- **Frozen Design by default:** The approved foundation is binding even without being repeated in every prompt. Local UI changes only reuse the shared system. Global design changes require explicit consent, an update of the versioned design contract, and appropriate regression of the affected screens; document permitted local exceptions. Freeze does not mean a ban on approved design evolution.
+- **Data Lifecycle by Design (the principle of life and death):** Before adding any data, define the purpose, owner/tenant, scope and type, retention period or expiry event, relationships and protections, cleanup mechanism, and proof of function. Without an explicitly justified exception, do not allow unbounded accumulation of technical data, logs, caches, blobs, files, exports, queues, audits, and their copies. Take into account backups, replicas, actual release of space, and data minimization principles.
+- **Retention is not a guess:** Derive specific periods from the approved specification, operational need, and applicable obligations; **30 days is not a project-wide universal period**. Do not remove accounting or legally protected records, unresolved operations, necessary anti-duplicate identifiers, or data under a retention hold; however, do not require a long-term archive without a defined value.
+- **Foundation/Change Gate:** Without an approved design foundation (for a UI application) or a completed lifecycle classification of the relevant new data, mark the affected implementation `BLOCKED / FOUNDATION_INCOMPLETE`. For a mid-cycle project, first perform an audit and introduce the missing foundations without automatic redesign, destructive cleanup, or migration.
+- **Handoff and testing:** Every assignment to Codex carries references to the versioned design contract and the lifecycle manifest for the affected entities; acceptance checks visual consistency, retention boundaries, safe exceptions, and cleanup that actually works. Keep all earlier rules of Git/spec precedence, security, risk tier, semantic gate, UAT, pilot exceptions, and independent approval.
 
 
 ## 17. Outcome Assurance + Interruption-Safe Execution (v1.11.0)
@@ -473,18 +473,18 @@ Read `references/outcome-and-recoverability.md` whenever preparing an executor t
 **F. Minimal overhead.** Do not build another report bureaucracy: reuse the one active handoff, existing Git and meaningful test evidence. Use local deterministic snapshots instead of repeated AI summaries; preserve all formal L2/L3/retention and semantic gates where applicable.
 
 
-## 18. Pilot RAPID_FUNCTIONAL – závazné upřesnění od v1.12.0
+## 18. Pilot RAPID_FUNCTIONAL – binding clarification since v1.12.0
 
-U projektů s výslovně schváleným vývojovým režimem (MEMALA je kandidát po promítnutí do Git governance) povol nový profil **RAPID_FUNCTIONAL**. Před přijetím úkolu čti `references/rapid-functional-development.md`. Tento profil je alternativní větev k pravidlům v §§9–17, nikoli jejich administrativní nadstavba. Pro jeho úzce vymezené nízkorizikové opravy výslovně **není** vyžadována povinná nezávislá META-only rekonstrukce, structurální validátor, dvojitý HUMAN/META report, full-manifest scan v každé relaci, nové formální approval po každém buildu/deployi ani opakované checkpointování beze změny rizika. Jeden lidský outcome kontrakt a krátký Git/UAT report stačí. Formální kontroly pokračují pro `FORMAL_CONTROLLED` úlohy; chráněná data, spec precedence a autentizace se nikdy nepovažují za vypnuté. Konfliktní starší bezpodmínečné formulace §§9a, 9b, 12–17 mají v tomto explicitně zvoleném profilu přednostně nahrazený pouze uvedený procesní rozsah.
+For projects with an explicitly approved development mode (MEMALA is a candidate once reflected in Git governance), allow the new profile **RAPID_FUNCTIONAL**. Before accepting a task, read `references/rapid-functional-development.md`. This profile is an alternative branch to the rules in §§9–17, not an administrative superstructure over them. For its narrowly bounded low-risk fixes, the following are explicitly **not** required: a mandatory independent META-only reconstruction, a structural validator, a double HUMAN/META report, a full-manifest scan in every session, new formal approval after every build/deploy, or repeated checkpointing without a change in risk. One human outcome contract and a short Git/UAT report suffice. Formal checks continue for `FORMAL_CONTROLLED` tasks; protected data, spec precedence, and authentication are never considered switched off. Conflicting older unconditional wording in §§9a, 9b, 12–17 is superseded in this explicitly chosen profile only within the stated process scope.
 
 
-## 19. HUMAN + META bez automatické byrokracie (v1.13.0)
+## 19. HUMAN + META without automatic bureaucracy (v1.13.0)
 
-Tato sekce má přednost před staršími bezpodmínečnými formulacemi v §§9–18, pokud svazují samotnou přítomnost META se schvalováním nebo naopak pro Rapid META zakazují. **Přesnost předání a míra kontrol jsou dvě nezávislé dimenze.**
+This section takes precedence over older unconditional wording in §§9–18 where it ties the mere presence of META to approval or, conversely, forbids META for Rapid. **Precision of handoff and the degree of checks are two independent dimensions.**
 
-- Pro zadávání mezi řídicí AI a Codexem používej **jediný společný HUMAN + META handoff** také v `RAPID_UI`/`RAPID_OPERATIONAL` a `RAPID_FUNCTIONAL`. META je stručné zpřesnění cílů, scope, zákazů, zachovávaných invariantů a akceptace, nikoli nové povolení či další proces.
-- Nevyžaduj automaticky nezávislou META-only rekonstrukci, strukturální validator, nové approval, plný manifest audit ani vícenásobné reporty jen kvůli tomu, že byl připojen META YAML.
-- `RAPID_*`: cílený test podle změněné funkce, commit/deploy a **jeden stručný HUMAN + META výsledek** (status, relevantní checks, commit, runtime, UAT, blocker). Výslovně nahrazuje v Rapid staré pravidlo „pouze HUMAN report“, aniž by obnovovalo formální gate.
-- `FORMAL_CONTROLLED`: zachovej nezbytné nezávislé bezpečnostní kontroly pro opravdu rizikové hranice (chráněná data, identita, tenant, destruktivní DB, produkce). Formal gate a audit uplatni v rozsahu skutečného rizika a aktivního protocol pinu, ne automaticky na všechny neohrožené části práce. Neopakuj platné dokončené kroky bez změny podkladů.
-- **HUMAN zůstává autoritativní; META pouze strojově zpřesňuje.** Nesoulad META/HUMAN oprav v návrhu, ale nevytvářej z něj další produktové schvalovací kolo, pokud je vůle vlastníka jednoznačná.
-- Použij `ai-meta-handoff` v0.7.0 a jeho `references/precision-without-bureaucracy.md`. Záznam aktuálně běžících úkolů neměň retroaktivně bez souhlasu vlastníka; nové zadání může explicitně převzít aktualizovaný komunikační standard, přičemž bezpečnostní invarianty zůstávají.
+- For assignments between the managing AI and Codex, use **a single shared HUMAN + META handoff** also in `RAPID_UI`/`RAPID_OPERATIONAL` and `RAPID_FUNCTIONAL`. META is a concise refinement of goals, scope, prohibitions, preserved invariants, and acceptance, not a new permission or an additional process.
+- Do not automatically require an independent META-only reconstruction, a structural validator, new approval, a full manifest audit, or multiple reports merely because a META YAML was attached.
+- `RAPID_*`: a targeted test according to the changed function, a commit/deploy, and **one concise HUMAN + META result** (status, relevant checks, commit, runtime, UAT, blocker). It explicitly replaces in Rapid the old rule "HUMAN report only", without restoring the formal gate.
+- `FORMAL_CONTROLLED`: keep the necessary independent safety checks for genuinely risky boundaries (protected data, identity, tenant, destructive DB, production). Apply the formal gate and audit to the extent of the real risk and the active protocol pin, not automatically to all unthreatened parts of the work. Do not repeat valid completed steps without a change of inputs.
+- **HUMAN remains authoritative; META only refines it in machine-readable form.** Correct a META/HUMAN mismatch in the draft, but do not create another product approval round from it if the owner's intent is unambiguous.
+- Use `ai-meta-handoff` v0.7.0 and its `references/precision-without-bureaucracy.md`. Do not change the record of currently running tasks retroactively without the owner's consent; a new assignment may explicitly adopt the updated communication standard, while the safety invariants remain.

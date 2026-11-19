@@ -418,7 +418,7 @@ That, uh, is that enough to score? Okay, go.
 
 # grok response
 
-Hodnocení: čtyři z deseti — před použitím upravit.
+Rating: four out of ten — edit before use.
 
 ---
 

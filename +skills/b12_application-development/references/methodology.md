@@ -1,6 +1,6 @@
 # Application Development — governance methodology
 
-## 1. Doporučená minimální struktura repozitáře
+## 1. Recommended minimal repository structure
 
 ```text
 <repo>/
@@ -12,24 +12,24 @@
 │       ├── <approved-supplement-if-any>
 │       └── <structural-companion-if-any>
 ├── dev/
-│   └── CODEX_HANDOFF.md   # při multi-session / multi-workspace práci
+│   └── CODEX_HANDOFF.md   # for multi-session / multi-workspace work
 ├── src/ or app/ or web/ ...
 └── project-specific development files
 ```
 
-Nepřidávej další historizační vrstvy automaticky. Jeden aktuální `CODEX_HANDOFF.md` + Git historie obvykle stačí.
+Do not add further history layers automatically. A single current `CODEX_HANDOFF.md` plus Git history is usually enough.
 
-## 2. Šablona spec/README.md
+## 2. spec/README.md template
 
 ```markdown
 # Specification source of truth
 
 ## Authoritative requirements
-1. `<primary specification>` — hlavní funkční autorita.
-2. `<approved supplement>` — novější schválené změny; v rozsahu změny má přednost před hlavní specifikací.
+1. `<primary specification>` — primary functional authority.
+2. `<approved supplement>` — newer approved changes; within the scope of the change it takes precedence over the primary specification.
 
 ## Structural companions
-- `<schema/model>` — autoritativní pouze pro <vymezený strukturální rozsah>; funkční workflow určuje hlavní specifikace.
+- `<schema/model>` — authoritative only for <defined structural scope>; the functional workflow is determined by the primary specification.
 
 ## Not requirements
 Existing source code, migrations, prototypes, historical documents, screenshots, README files and test fixtures describe implementation or evidence only. They must not be used to infer functional requirements unless explicitly incorporated into an authoritative document.
@@ -42,7 +42,7 @@ A new functional behavior must be either:
 If neither applies, classify as `REQUIREMENT_NOT_FOUND` and stop before coding.
 ```
 
-## 3. Šablona kořenového AGENTS.md
+## 3. Root AGENTS.md template
 
 ```markdown
 # Project development rules
@@ -84,7 +84,7 @@ Report classification, authoritative source, files changed, tests/build results,
 
 ## 3a. Executor-local methodology mirror
 
-Pokud executor (např. Codex) nemá přístup k ChatGPT Skill katalogu, vlož pouze relevantní metodické skilly do repozitáře jako portable execution context:
+If the executor (e.g. Codex) has no access to the ChatGPT Skill catalog, place only the relevant methodology skills in the repository as a portable execution context:
 
 ```text
 ai/skills/
@@ -99,7 +99,7 @@ ai/skills/
       examples.md
 ```
 
-Tyto soubory nejsou produktovou specifikací. Doporučený text do `AGENTS.md`:
+These files are not a product specification. Recommended text for `AGENTS.md`:
 
 ```text
 ai/skills/** contains execution methodology / developer context for Coding AI.
@@ -115,21 +115,21 @@ Minimality rule: mirror only the skills needed for the executor task. For a form
 
 ## 4. Source audit table
 
-| Source | Kategorie | Codex potřebuje? | Autorita | Akce |
+| Source | Category | Does Codex need it? | Authority | Action |
 |---|---|---:|---|---|
-| hlavní zadání | AUTHORITATIVE REQUIREMENTS | ano | funkční | mirror do `spec/current/` |
-| schválený doplněk | AUTHORITATIVE REQUIREMENTS | ano | novější změny | mirror |
-| ER/schema | STRUCTURAL COMPANION | podle potřeby | pouze strukturální | mirror + vymezit roli |
-| local README | DEVELOPER CONTEXT | obvykle ano | provozní | ponechat |
-| `dev/CODEX_HANDOFF.md` | DEVELOPER CONTEXT | ano při continuation | žádná funkční | verzovat, průběžně aktualizovat |
-| source code | IMPLEMENTATION STATE | ano | žádná funkční autorita | ponechat v kódu |
-| migrations/seed | IMPLEMENTATION STATE | ano | žádná funkční autorita | ponechat v kódu |
-| screenshoty | TRANSIENT EVIDENCE | obvykle ne | žádná | nepřenášet trvale |
-| staré specs/prototypy | LEGACY / EXCLUDE | ne | žádná | vynechat |
+| primary assignment | AUTHORITATIVE REQUIREMENTS | yes | functional | mirror into `spec/current/` |
+| approved supplement | AUTHORITATIVE REQUIREMENTS | yes | newer changes | mirror |
+| ER/schema | STRUCTURAL COMPANION | as needed | structural only | mirror + define its role |
+| local README | DEVELOPER CONTEXT | usually yes | operational | keep |
+| `dev/CODEX_HANDOFF.md` | DEVELOPER CONTEXT | yes, on continuation | no functional authority | version it, update continuously |
+| source code | IMPLEMENTATION STATE | yes | no functional authority | keep in code |
+| migrations/seed | IMPLEMENTATION STATE | yes | no functional authority | keep in code |
+| screenshots | TRANSIENT EVIDENCE | usually no | none | do not carry over permanently |
+| old specs/prototypes | LEGACY / EXCLUDE | no | none | omit |
 
 ## 5. Governance verification prompt
 
-Použij po zavedení governance vrstvy a při prvním vstupu Codexu do existujícího projektu:
+Use after the governance layer is introduced and when Codex first enters an existing project:
 
 ```text
 Before implementation, verify specification governance.
@@ -145,7 +145,7 @@ or
 GOVERNANCE STATUS: BLOCKED
 ```
 
-Pokračuj pouze po `PASS`.
+Continue only after `PASS`.
 
 ## 6. `dev/CODEX_HANDOFF.md` template
 
@@ -200,24 +200,24 @@ Continue from the exact current working tree. Do not reset, restore, clean, disc
 
 ## 7. Quota-aware Codex protocol
 
-Pokud Codex zná procenta zbývající kvóty, sleduj každý relevantní limit samostatně, zejména 5-hour a weekly.
+If Codex knows the percentage of remaining quota, track each relevant limit separately, especially the 5-hour and weekly limits.
 
 - >20%: NORMAL
 - <=20% and >10%: CHECKPOINT_AWARE
 - <=10%: MANDATORY_HANDOFF
 
-V `CHECKPOINT_AWARE` nezačínej zbytečně široký nový blok a aktualizuj handoff po významném posunu.
+In `CHECKPOINT_AWARE`, do not start an unnecessarily broad new block, and update the handoff after significant progress.
 
 V `MANDATORY_HANDOFF`:
-1. dokonči jen bezpečně dokončitelný atomický krok;
-2. nezačínej novou migraci/feature/refactor blok;
+1. finish only an atomic step that can be safely completed;
+2. do not start a new migration/feature/refactor block;
 3. aktualizuj `dev/CODEX_HANDOFF.md`;
-4. ověř root, branch, HEAD, `git status`, changed files;
-5. sepiš completed / in progress / not started / untested;
-6. vytvoř `NEXT CODEX PROMPT`;
-7. necommituj jen kvůli quota boundary.
+4. verify root, branch, HEAD, `git status`, changed files;
+5. write down completed / in progress / not started / untested;
+6. create the `NEXT CODEX PROMPT`;
+7. do not commit just because of the quota boundary.
 
-Quota exhaustion je očekávaná hranice session, nikoli chyba.
+Quota exhaustion is an expected session boundary, not an error.
 
 ## 8. `NEXT CODEX PROMPT` template
 
@@ -258,7 +258,7 @@ If handing off again, update dev/CODEX_HANDOFF.md and produce a new NEXT CODEX P
 
 ## 8a. Checkpoint-based continuation / context-efficiency template
 
-Po validním checkpointu preferuj tento režim:
+After a valid checkpoint, prefer this mode:
 
 ```text
 CHECKPOINT CONTINUATION — CONTEXT EFFICIENCY
@@ -300,7 +300,7 @@ Never relax source-of-truth precedence, Git safety, UAT/data protection, destruc
 
 ### Current-state-first handoff rule
 
-Aktivní `dev/CODEX_HANDOFF.md` a implementační report nemají růst nekonečným kopírováním celé historie. Drž nahoře pouze současný stav, přesný next step a aktuální warnings/evidence. Historii nech Gitu. Pokud projekt z provozních důvodů starší checkpointy ve stejném souboru ponechává, continuation prompt musí říct, že se jejich historická část nečte znovu bez konkrétní potřeby.
+The active `dev/CODEX_HANDOFF.md` and the implementation report should not grow endlessly by copying the entire history. Keep only the current state, the exact next step, and current warnings/evidence at the top. Leave history to Git. If, for operational reasons, a project keeps older checkpoints in the same file, the continuation prompt must say that their historical part is not re-read without a concrete need.
 
 ## 9. Handoff templates by classification
 
@@ -340,7 +340,7 @@ Preserve all behavior defined by spec/current/.
 
 ### REQUIREMENT_NOT_FOUND
 
-Nezadávej programování. Vrať problém do Chatu/specifikační fáze.
+Do not assign coding. Return the problem to the Chat/specification phase.
 
 ## 10. Acceptance loop
 

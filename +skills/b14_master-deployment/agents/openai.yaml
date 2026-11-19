@@ -1,8 +1,8 @@
 interface:
   display_name: Master–Deployment
-  short_description: Přenositelné a verzované AI produkty
-  default_prompt: Použij $master-deployment při návrhu přenositelného a licencovatelného
-    AI produktu.
+  short_description: Portable and versioned AI products
+  default_prompt: Use $master-deployment when designing a portable and licensable
+    AI product.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:

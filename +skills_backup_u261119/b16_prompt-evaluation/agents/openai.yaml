@@ -1,0 +1,18 @@
+interface:
+  display_name: vyhodnot prompt
+  short_description: Hodnotí kvalitu uživatelských promptů a učí uživatele psát účinnější
+    zadání pomocí české pomůcky CO – PROČ – Z ČEHO – KOMU – POZOR NA. Použij, když
+    uživatel chce zhodnotit, obodovat, zkontrolovat nebo zlepšit prompt, procvičuje
+    prompt engineering, žádá zpětnou vazbu k zadání pro ChatGPT nebo chce zjistit,
+    co v promptu chybí. Hodnocení vždy zohledni vůči skutečnému prostředí, ve kterém
+    má prompt běžet; pravidla již zajištěná aktivním Skillem, GPT či Agentem nevyžaduj
+    znovu.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

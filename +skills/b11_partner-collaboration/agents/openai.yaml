@@ -1,7 +1,7 @@
 interface:
-  display_name: Partnerská spolupráce
-  short_description: Propojuje zkušenost uživatele a odborný pohled AI
-  default_prompt: Použij $partnerska-spoluprace pro partnerské řešení tohoto úkolu.
+  display_name: Partner collaboration
+  short_description: Combines the user's experience with the AI's expert perspective
+  default_prompt: Use $partnerska-spoluprace for a partner-style solution to this task.
   icon_small: assets/icon.svg
   icon_large: assets/icon.svg
 policy:

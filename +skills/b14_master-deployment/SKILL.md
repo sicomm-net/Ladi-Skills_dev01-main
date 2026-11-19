@@ -1,235 +1,235 @@
 ---
 name: master-deployment
-description: Navrhuj, vyvíjej, dokumentuj, testuj a aktualizuj přenositelné a licencovatelné AI produkty podle architektury Master → Deployment. Používej při tvorbě nebo podstatné změně skillu, GPT, agenta, automatizace či jiného opakovaně nasaditelného AI řešení, zejména když uživatel zmiňuje master, zákaznickou instanci, deployment, licenci, autorství, přenos k zákazníkovi, opakované nasazení, verzování, aktualizace nebo využití řešení pro více zákazníků. Používej také tehdy, když Ladislav Goc vyvíjí nový AI produkt pro vlastní použití; vlastní použití považuj za licencovaný deployment autora. Skill je soukromým vývojovým standardem autora a není určen k automatickému řízení práce zákazníků.
+description: Design, develop, document, test, and update portable and licensable AI products following the Master → Deployment architecture. Use when creating or substantially changing a skill, GPT, agent, automation, or other repeatedly deployable AI solution, especially when the user mentions master, customer instance, deployment, license, authorship, handover to a customer, repeated deployment, versioning, updates, or using the solution for multiple customers. Also use when Ladislav Goc develops a new AI product for his own use; treat his own use as a licensed deployment of the author. The skill is the author's private development standard and is not intended to automatically govern customers' work.
 ---
 
 # Master–Deployment
 
-## Verze a správa
+## Version and administration
 
-Aktuální verze skillu je **1.4.0**.
+The current version of the skill is **1.4.0**.
 
-Používej SemVer:
+Use SemVer:
 
-- **PATCH** – oprava bez změny očekávaného chování.
-- **MINOR** – nová zpětně kompatibilní schopnost nebo pravidlo.
-- **MAJOR** – změna architektury, odpovědností nebo kompatibility.
+- **PATCH** – a fix without a change in expected behavior.
+- **MINOR** – a new backward-compatible capability or rule.
+- **MAJOR** – a change of architecture, responsibilities, or compatibility.
 
-**Autor, vlastník masteru a odborný správce:** Ladislav Goc  
-Copyright © 2026 Ladislav Goc. Všechna práva vyhrazena.
+**Author, master owner, and expert administrator:** Ladislav Goc  
+Copyright © 2026 Ladislav Goc. All rights reserved.
 
-Tento skill je masterem a jeho instalace u autora je licencovaným vývojovým deploymentem autora. Každý další deployment vyžaduje samostatné oprávnění autora. Oficiální změny a aktualizace provádí autor. Neupravenou zákaznickou instanci technicky vlastní zákazník, pokud deployment dokumentace nebo smlouva nestanoví jinak; autorství obecné logiky tím nepřechází.
+This skill is a master, and its installation at the author's is the author's licensed development deployment. Every further deployment requires the author's separate authorization. Official changes and updates are made by the author. An unmodified customer instance is technically owned by the customer unless the deployment documentation or contract states otherwise; this does not transfer authorship of the general logic.
 
-## Účel
+## Purpose
 
-Vytvářej AI řešení jako spravovatelné produkty, nikoli jako jednorázové konverzační konfigurace. Odděluj stabilní, opakovaně použitelný master od každého konkrétního deploymentu. Zachovej přenositelnost, autorství, licencovatelnost, kontrolované aktualizace, ochranu zákaznických dat a možnost zobecňovat zkušenosti do dalších verzí masteru.
+Create AI solutions as manageable products, not as one-off conversational configurations. Separate the stable, reusable master from each specific deployment. Preserve portability, authorship, licensability, controlled updates, protection of customer data, and the ability to generalize experience into further versions of the master.
 
-Uplatňuj tento skill společně s odbornými a realizačními skilly. Nenahrazuj jím doménovou správnost, technickou dokumentaci použité platformy ani právní posouzení licenční smlouvy.
+Apply this skill together with domain and implementation skills. It does not replace domain correctness, the technical documentation of the platform used, or legal assessment of a license agreement.
 
-## Základní model
+## Basic model
 
-Každý produkt považuj od počátku za licencovatelný:
+Treat every product as licensable from the start:
 
 ```text
 MASTER
-  ├── licence autora → vývojový deployment autora
-  ├── licence → deployment zákazníka A
-  └── licence → deployment zákazníka B
+  ├── author's license → author's development deployment
+  ├── license → customer A deployment
+  └── license → customer B deployment
 ```
 
-Rozlišuj:
+Distinguish:
 
-- **Master** – obecná logika, workflow, datový model, pravidla, šablony, testy, konfigurační model a deployment postup.
-- **Deployment** – konkrétní instalace masteru pro držitele licence.
-- **Zákaznická konfigurace** – údaje, volby, integrace, oprávnění a odchylky platné jen pro daný deployment.
-- **Zákaznická instance** – technická realizace deploymentu v prostředí zákazníka.
-- **Zpětné zobecnění** – anonymizované, obecně použitelné poučení zapracované do nové verze masteru.
+- **Master** – general logic, workflow, data model, rules, templates, tests, configuration model, and deployment procedure.
+- **Deployment** – a specific installation of the master for a license holder.
+- **Customer configuration** – data, options, integrations, permissions, and deviations valid only for the given deployment.
+- **Customer instance** – the technical realization of a deployment in the customer's environment.
+- **Back-generalization** – an anonymized, generally applicable lesson incorporated into a new version of the master.
 
-Vlastní použití autora nepovažuj za výjimku. Eviduj autora současně jako držitele licence a označ deployment například jako `author-development`.
+Do not treat the author's own use as an exception. Record the author simultaneously as a license holder and label the deployment, for example, `author-development`.
 
-## Povinný pracovní postup
+## Mandatory workflow
 
-### 1. Určit produkt a fázi
+### 1. Determine the product and phase
 
-Nejprve určit účel a uživatele produktu, jeho typ, fázi, očekávanou míru autonomie, lidské kontrolní body, hranice aktuální verze a odložené funkce.
+First determine the purpose and users of the product, its type, phase, expected level of autonomy, human checkpoints, boundaries of the current version, and deferred functions.
 
-Rozlišovat fáze: záměr, experiment, prototyp, master ve vývoji, pilot, produkční deployment a aktualizace. U experimentu nevynucovat kompletní produkční dokumentaci, ale zaznamenat, co musí být doplněno před pilotem. U zákaznického pilotu nebo produkčního deploymentu uplatnit celý standard.
+Distinguish phases: intent, experiment, prototype, master in development, pilot, production deployment, and update. For an experiment, do not enforce complete production documentation, but record what must be added before the pilot. For a customer pilot or production deployment, apply the full standard.
 
-### 2. Vymezit master
+### 2. Define the master
 
-Do masteru zahrnout pouze stabilní a opakovaně použitelné prvky:
+Include in the master only stable and reusable elements:
 
-- procesní a rozhodovací logiku;
-- datový a stavový model;
-- obecná pravidla a bezpečnostní hranice;
-- vstupní a výstupní schémata;
-- univerzální šablony a konfigurační rozhraní;
-- testovací scénáře a očekávané výsledky;
-- instalační a aktualizační postup.
+- process and decision logic;
+- data and state model;
+- general rules and safety boundaries;
+- input and output schemas;
+- universal templates and configuration interfaces;
+- test scenarios and expected results;
+- installation and update procedure.
 
-Neukládat do masteru zákaznické doklady, osobní údaje, přístupové údaje, identifikovatelné konverzace ani konfiguraci konkrétního zákazníka.
+Do not store customer documents, personal data, access credentials, identifiable conversations, or a specific customer's configuration in the master.
 
-### 3. Vymezit deployment
+### 3. Define the deployment
 
-Pro každý deployment určit minimálně:
+For each deployment, determine at minimum:
 
-- držitele licence a technického vlastníka instance;
-- oprávněné uživatele, editory a správce;
-- verzi masteru a revizi deploymentu;
-- zákaznickou konfiguraci a schválené odchylky;
-- prostředí, integrace a potřebná oprávnění;
-- rozsah podpory, aktualizací a údržby;
-- testovací a akceptační stav;
-- postup návratu k předchozí ověřené verzi;
-- podmínky ukončení nebo předání správy.
+- the license holder and the technical owner of the instance;
+- authorized users, editors, and administrators;
+- the master version and deployment revision;
+- customer configuration and approved deviations;
+- environment, integrations, and required permissions;
+- scope of support, updates, and maintenance;
+- testing and acceptance status;
+- the procedure for returning to the previous verified version;
+- conditions for termination or handover of administration.
 
-### 4. Oddělit vlastnictví a autorství
+### 4. Separate ownership and authorship
 
-Vždy samostatně uvádět autora a vlastníka masteru, držitele licence, technického vlastníka zákaznické instance, vlastníka zákaznických dat, odborného správce a osoby oprávněné provádět změny.
+Always state separately the author and owner of the master, the license holder, the technical owner of the customer instance, the owner of customer data, the expert administrator, and the persons authorized to make changes.
 
-Nevydávat technické vlastnictví instance za převod autorství masteru. Nevydávat obecný licenční rámec skillu za úplné právní posouzení konkrétní smlouvy.
+Do not present technical ownership of an instance as a transfer of authorship of the master. Do not present the skill's general licensing framework as a complete legal assessment of a specific contract.
 
-### 5. Verzovat
+### 5. Version
 
-Verzovat master podle SemVer. Zákaznický deployment označovat tak, aby bylo zřejmé, z jaké verze masteru vychází, například `1.2.0-CUSTOMER01.3`.
+Version the master per SemVer. Label a customer deployment so it is clear which master version it is based on, for example `1.2.0-CUSTOMER01.3`.
 
-Evidovat verzi masteru, revizi deploymentu, datum a autora změny, důvod a rozsah změny, kompatibilitu, provedené testy, stav nasazení a možnost návratu. Nepoužívat historii chatu jako jediný změnový záznam.
+Record the master version, deployment revision, date and author of the change, reason and scope of the change, compatibility, tests performed, deployment status, and the possibility of rollback. Do not use chat history as the only change record.
 
-### 6. Udržovat zdroj pravdy
+### 6. Maintain the source of truth
 
-Nepovažovat konfiguraci v uživatelském rozhraní GPT, agenta nebo skillu za jediný zdroj produktu. Udržovat reprodukovatelný master balíček přiměřený typu produktu, typicky obsahující:
+Do not treat the configuration in the user interface of a GPT, agent, or skill as the only source of the product. Maintain a reproducible master package appropriate to the product type, typically containing:
 
-- hlavní instrukce nebo zdrojové soubory;
-- workflow, datový model a konfigurační schéma;
-- testy a očekávané výsledky;
-- deployment a akceptační checklist;
-- autorství a licenční informace;
-- záznam verzí a změn.
+- main instructions or source files;
+- workflow, data model, and configuration schema;
+- tests and expected results;
+- deployment and acceptance checklist;
+- authorship and license information;
+- a record of versions and changes.
 
-Nevytvářet dokumenty bez praktické role. Přizpůsobit názvy a formáty platformě a složitosti produktu.
+Do not create documents with no practical role. Adapt names and formats to the platform and the complexity of the product.
 
-### 6a. Rozlišovat kontext, paměť a řízené učení
+### 6a. Distinguish context, memory, and controlled learning
 
-Nevydávat práci s kontextem aktuální relace za trvalé učení produktu. Rozlišovat:
+Do not present working with the context of the current session as permanent learning of the product. Distinguish:
 
-- dočasný stav jedné relace nebo dávky;
-- sdílenou deploymentovou konfiguraci a registry;
-- schválený zákaznický precedent;
-- obecnou změnu nové verze masteru.
+- the temporary state of a single session or batch;
+- shared deployment configuration and registries;
+- an approved customer precedent;
+- a general change in a new version of the master.
 
-Nezavádět ukládání precedentů, adaptivních pravidel ani jiné chování přenášené mezi uživateli nebo relacemi, dokud deployment nemá společné úložiště dostupné oprávněným uživatelům, určeného vlastníka dat, řízení oprávnění, audit změn, verzování a schvalovací postup.
+Do not introduce storage of precedents, adaptive rules, or other behavior carried across users or sessions until the deployment has a shared repository available to authorized users, a designated data owner, permission management, change audit, versioning, and an approval procedure.
 
-Do té doby používat rozhodnutí pouze v rozsahu aktuální relace nebo dávky a případnou budoucí persistenci evidovat jako odloženou funkci. Nepředstírat sdílení ani trvalou paměť, které technické prostředí neposkytuje.
+Until then, use decisions only within the scope of the current session or batch, and record any future persistence as a deferred function. Do not pretend sharing or permanent memory that the technical environment does not provide.
 
-Po zavedení sdíleného úložiště ukládat nové pravidlo pouze řízeným postupem: návrh → odborné schválení → zápis do sdíleného registru → verze a audit → použití v dalších případech. Rozlišovat pravidlo klienta, pravidlo organizace a zobecnění vhodné do masteru; zákaznický precedent nepřenášet do jiného deploymentu.
+Once a shared repository is introduced, store a new rule only through a controlled procedure: proposal → expert approval → write to the shared registry → version and audit → use in further cases. Distinguish a client rule, an organization rule, and a generalization suitable for the master; do not carry a customer precedent into another deployment.
 
-### 7. Testovat po vrstvách
+### 7. Test in layers
 
-Rozdělit ověření na:
+Divide verification into:
 
-1. test masteru na anonymizovaných nebo vlastních datech;
-2. test zákaznické konfigurace;
-3. pilot v bezpečném nebo virtuálním prostředí;
-4. akceptaci zákazníkem;
-5. produkční nasazení;
-6. následné sledování a ladění.
+1. master test on anonymized or own data;
+2. customer configuration test;
+3. pilot in a safe or virtual environment;
+4. customer acceptance;
+5. production deployment;
+6. follow-up monitoring and tuning.
 
-Definovat předem měřitelné podmínky úspěchu, chybové případy, lidské schvalovací body a zakázané akce. Neoznačit deployment za ověřený bez odpovídajících testů.
+Define in advance measurable success conditions, error cases, human approval points, and prohibited actions. Do not label a deployment verified without corresponding tests.
 
-### 8. Řídit změny a aktualizace
+### 8. Manage changes and updates
 
-U každé změny určit, zda jde o opravu pouze jednoho deploymentu, novou zákaznickou odchylku, obecné zlepšení vhodné do masteru nebo bezpečnostní či kompatibilitní změnu vyžadující aktualizaci více deploymentů.
+For each change, determine whether it is a fix for a single deployment only, a new customer deviation, a general improvement suitable for the master, or a security or compatibility change requiring an update of multiple deployments.
 
-Nejdříve zobecnit a anonymizovat vhodné poučení, poté je zapracovat do nové verze masteru a otestovat. Až následně je nasazovat do zákaznických instancí. Neměnit všechny deploymenty automaticky bez posouzení kompatibility a oprávnění.
+First generalize and anonymize the suitable lesson, then incorporate it into a new version of the master and test it. Only afterward deploy it to customer instances. Do not change all deployments automatically without assessing compatibility and authorization.
 
-### 9. Chránit data a know-how
+### 9. Protect data and know-how
 
-Do masteru nebo jiného deploymentu nepřenášet bez výslovného oprávnění:
+Do not carry the following into the master or another deployment without explicit authorization:
 
-- zákaznická data a dokumenty;
-- osobní nebo identifikační údaje;
-- seznamy klientů, dodavatelů nebo zaměstnanců;
-- přístupové údaje a tajné hodnoty;
-- interní konfiguraci a zákaznické know-how;
-- identifikovatelné příklady, konverzace nebo výsledky.
+- customer data and documents;
+- personal or identification data;
+- lists of clients, suppliers, or employees;
+- access credentials and secret values;
+- internal configuration and customer know-how;
+- identifiable examples, conversations, or results.
 
-Přenášet pouze zobecněná pravidla, anonymizované chybové scénáře a obecně použitelné zlepšení. Pokud nelze informace bezpečně zobecnit, ponechat je pouze v příslušném deploymentu.
+Carry over only generalized rules, anonymized error scenarios, and generally usable improvements. If information cannot be safely generalized, keep it only in the relevant deployment.
 
-### 10. Připravit předání
+### 10. Prepare the handover
 
-Před zákaznickým pilotem nebo produkčním nasazením potvrdit úplnost deployment balíčku, vlastnictví a oprávnění, držitele licence, oddělení dat, verzi a kompatibilitu, testy a akceptaci, lidské kontrolní body, aktualizační a návratový postup a odpovědnost za podporu.
+Before a customer pilot or production deployment, confirm the completeness of the deployment package, ownership and authorization, the license holder, data separation, version and compatibility, tests and acceptance, human checkpoints, the update and rollback procedure, and responsibility for support.
 
-## Rozhodovací pravidla
+## Decision rules
 
-- Preferovat jeden konfigurovatelný master před samostatnými kopiemi obecné logiky.
-- Připustit zákaznickou odchylku pouze tehdy, když ji nelze bezpečně vyřešit konfigurací nebo změnou masteru.
-- Nezvětšovat produkt o budoucí automatizaci, která není potřebná pro aktuální ověřovaný krok.
-- Zachovat člověka ve schvalovacím bodě, pokud je výsledek odborně, finančně, právně nebo provozně významný.
-- Rozlišovat připravený podklad, testovaný výsledek, nasazenou změnu a ověřený provoz.
-- Nevracet zákaznickou opravu do masteru mechanickým kopírováním.
-- Zachovat možnost reprodukovat konkrétní deployment z evidované verze masteru a konfigurace.
-- Nezaměňovat kontext relace za trvalé učení; persistenci pravidel aktivovat až po zavedení řízeného sdíleného úložiště.
+- Prefer one configurable master over separate copies of the general logic.
+- Allow a customer deviation only when it cannot be safely resolved by configuration or a change to the master.
+- Do not enlarge the product with future automation not needed for the current verified step.
+- Keep a human at the approval point when the result is professionally, financially, legally, or operationally significant.
+- Distinguish a prepared basis, a tested result, a deployed change, and verified operation.
+- Do not return a customer fix to the master by mechanical copying.
+- Preserve the ability to reproduce a specific deployment from the recorded master version and configuration.
+- Do not confuse session context with permanent learning; activate rule persistence only after a controlled shared repository is introduced.
 
-## Uživatelské rozhraní a interní model
+## User interface and internal model
 
-Při návrhu aplikace, Site, GPT, agenta nebo jiného uživatelského rozhraní důsledně oddělovat interní datový a stavový model od textů určených uživateli:
+When designing an application, Site, GPT, agent, or other user interface, consistently separate the internal data and state model from texts intended for users:
 
-- zachovat stabilní interní kódy pro automatizaci, audit, diagnostiku, export a integrace;
-- běžnému uživateli nezobrazovat názvy proměnných, enumů, stavových kódů, technická ID ani serializovaná data, pokud je výslovně nepotřebuje k diagnostice;
-- každý viditelný stav převést přes centrální mapování na lidský název, stručné vysvětlení a konkrétní další krok v jazyce uživatele;
-- neskládat uživatelské hlášení přímým spojením interního kódu a běžného textu;
-- technické hodnoty zpřístupnit pouze v jasně označeném auditu nebo diagnostickém režimu;
-- odlišovat datovou chybu, odbornou kontrolu, neblokující varování, probíhající operaci a dokončený stav také vizuálně a procesně;
-- hromadný stav zobrazit jednou za dávku, pokud nevyžaduje odlišnou akci u jednotlivých položek;
-- do akceptačních testů zahrnout kontrolu, že běžná obrazovka neobsahuje nepřeložené interní kódy a že každé hlášení sděluje uživateli proveditelný další krok.
+- keep stable internal codes for automation, audit, diagnostics, export, and integrations;
+- do not show an ordinary user variable names, enums, status codes, technical IDs, or serialized data unless they explicitly need them for diagnostics;
+- convert every visible state through a central mapping to a human-readable name, a brief explanation, and a concrete next step in the user's language;
+- do not compose a user message by directly joining an internal code with ordinary text;
+- make technical values available only in a clearly labeled audit or diagnostic mode;
+- distinguish a data error, a professional check, a non-blocking warning, an operation in progress, and a completed state also visually and procedurally;
+- display a bulk status once per batch unless it requires a different action for individual items;
+- include in acceptance tests a check that an ordinary screen contains no untranslated internal codes and that every message gives the user a feasible next step.
 
-Interní kód nikdy neodstraňovat jen kvůli prezentaci. Opravit prezentační vrstvu; auditní a integrační význam zachovat.
+Never remove an internal code merely because of presentation. Fix the presentation layer; preserve the audit and integration meaning.
 
-### Uživatelský záměr a stavové přechody
+### User intent and state transitions
 
-Navrhovat ovládání podle cíle uživatele, nikoli podle interních kroků systému:
+Design controls around the user's goal, not around the system's internal steps:
 
-- pro běžnou úspěšnou cestu nabídnout jednu hlavní akci, která atomicky uloží změny, přijme nezměněné návrhy, provede validaci, schválí položku a odvodí její další stav;
-- nevystavovat několik tlačítek pro technické mezistavy, pokud nepředstavují samostatná a pro uživatele významná rozhodnutí;
-- stavové a odvozené hodnoty, například zahrnutí do exportu, exportní trasu nebo stav workflow, nechat řídit systémem a běžně je nedovolit ručně přepisovat;
-- samotným otevřením, zobrazením nebo procházením položky neměnit její stav; změnu provést až výslovnou akcí uživatele;
-- samostatně nabídnout pouze skutečné alternativy, například uložit koncept, vyřadit položku, zrušit ji nebo odložit rozhodnutí;
-- při neúspěchu neprovést částečný stavový přechod, ponechat formulář otevřený a lidsky uvést přesně to, co je nutné doplnit;
-- během delší operace zobrazit průběh nebo alespoň jednoznačný stav práce, zablokovat duplicitní spuštění a zajistit idempotentní zpracování opakovaného požadavku;
-- do akceptačních testů zahrnout běžný úspěšný scénář dokončený jedinou hlavní akcí bez opakovaného zadávání nebo potvrzování stejné informace.
+- for the ordinary successful path, offer one main action that atomically saves changes, accepts unchanged suggestions, performs validation, approves the item, and derives its next state;
+- do not expose several buttons for technical intermediate states unless they represent separate decisions significant to the user;
+- let the system drive status and derived values, such as inclusion in an export, the export route, or the workflow state, and do not normally allow them to be overwritten manually;
+- do not change an item's state merely by opening, displaying, or browsing it; make the change only on an explicit user action;
+- offer separately only genuine alternatives, such as saving a draft, discarding an item, canceling it, or postponing the decision;
+- on failure, do not perform a partial state transition, leave the form open, and state in human terms exactly what must be completed;
+- during a longer operation, show progress or at least an unambiguous working state, block duplicate launches, and ensure idempotent processing of a repeated request;
+- include in acceptance tests an ordinary successful scenario completed with a single main action without re-entering or re-confirming the same information.
 
-Text hlavní akce má popisovat její uživatelský výsledek, například `Schválit a zahrnout do exportu`, nikoli interní operaci typu `Nastavit stav APPROVED`.
+The text of the main action should describe its user outcome, for example `Approve and include in export`, not an internal operation such as `Set status APPROVED`.
 
-## Povinný výstup při návrhu nebo změně produktu
+## Mandatory output when designing or changing a product
 
-Podle fáze stručně zachytit:
+Depending on the phase, briefly capture:
 
-1. **Produkt a účel** – co se vyvíjí, pro koho a s jakou mírou autonomie.
-2. **Fázi** – experiment, prototyp, pilot, produkce nebo aktualizace.
-3. **Master** – obecná logika a stabilní části.
-4. **Deployment** – držitel licence, instance, konfigurace a odchylky.
-5. **Vlastnictví a správa** – autor, vlastníci, správce a oprávnění.
-6. **Verzi** – master a revize deploymentu.
-7. **Zdroj pravdy** – kde jsou reprodukovatelné podklady.
-8. **Testování** – stav, akceptační kritéria a lidské kontrolní body.
-9. **Ochranu dat** – co zůstává pouze u zákazníka.
-10. **Změny pro master** – co lze po anonymizaci zobecnit.
-11. **Další krok** – nejbližší konkrétní rozhodnutí nebo realizace.
+1. **Product and purpose** – what is being developed, for whom, and with what level of autonomy.
+2. **Phase** – experiment, prototype, pilot, production, or update.
+3. **Master** – general logic and stable parts.
+4. **Deployment** – license holder, instance, configuration, and deviations.
+5. **Ownership and administration** – author, owners, administrator, and permissions.
+6. **Version** – master and deployment revision.
+7. **Source of truth** – where the reproducible materials are.
+8. **Testing** – status, acceptance criteria, and human checkpoints.
+9. **Data protection** – what stays only with the customer.
+10. **Changes for the master** – what can be generalized after anonymization.
+11. **Next step** – the nearest concrete decision or implementation.
 
-Nevytvářet vždy rozsáhlý report. Udržet výstup přiměřený fázi a riziku. Pokud již projektová dokumentace existuje, aktualizovat ji místo vytváření paralelního zdroje.
+Do not always create an extensive report. Keep the output proportionate to the phase and risk. If project documentation already exists, update it instead of creating a parallel source.
 
-## Sebekontrola tohoto skillu
+## Self-check of this skill
 
-Při změně tohoto skillu uplatnit jeho vlastní pravidla:
+When changing this skill, apply its own rules:
 
-- zachovat Ladislava Goce jako autora, vlastníka masteru a odborného správce;
-- verzovat změnu podle SemVer;
-- udržovat master oddělený od případných zákaznických deploymentů;
-- nepřenášet zákaznické konfigurace nebo data do masteru;
-- před vydáním změnu validovat a ověřit na realistických vývojových scénářích;
-- evidovat, která verze masteru je nasazena v každém deploymentu.
+- keep Ladislav Goc as author, master owner, and expert administrator;
+- version the change per SemVer;
+- keep the master separate from any customer deployments;
+- do not carry customer configurations or data into the master;
+- before release, validate the change and verify it on realistic development scenarios;
+- record which master version is deployed in each deployment.
 
 
-## 1.4.0 – Proporcionální experimentální vývoj a pilot
+## 1.4.0 – Proportionate experimental development and pilot
 
-Ve vlastní autorově development instanci rozliš mezi `DEVELOPMENT`, `PILOT_WITH_REAL_DATA` a `PRODUCTION`. Pro krátký vývojový cyklus nepožaduj plný zákaznický deployment balíček, opakovanou licenci/checklist ani revizi celého masteru při každém bugfixu. Stačí Git commit/verze, jednoznačný vlastník a target, cílený test a UAT. Nové obecně použitelné poučení lze sepsat později při řízené aktualizaci masteru; není bránou pro opravu produktu. Identifikovaná spotřební testovací data v prokazatelně vývojovém prostředí lze na základě předem schváleného rozsahu likvidovat bez dodatečných záloh; zachovej oddělení skutečných klientských dat, tenantů a zákonných retenčních povinností. Toto upřesnění má při aktivním DEVELOPMENT režimu přednost před obecnou dokumentační povinností výše, nikoli před ochranou dat či autorskými právy.
+In the author's own development instance, distinguish between `DEVELOPMENT`, `PILOT_WITH_REAL_DATA`, and `PRODUCTION`. For a short development cycle, do not require the full customer deployment package, a repeated license/checklist, or a revision of the whole master with every bugfix. A Git commit/version, a clear owner and target, a targeted test, and UAT are enough. A new generally usable lesson can be written up later during a controlled update of the master; it is not a gate for fixing the product. Identified consumable test data in a demonstrably development environment may be disposed of on the basis of a pre-approved scope without additional backups; preserve the separation of real client data, tenants, and legal retention obligations. In an active DEVELOPMENT mode, this clarification takes precedence over the general documentation obligation above, but not over data protection or copyright.
