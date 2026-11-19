@@ -1,0 +1,12 @@
+interface:
+  display_name: Application Development
+  short_description: Spec-driven Chat, Git and Codex development workflow
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true

@@ -1,0 +1,20 @@
+<style>
+   th { padding: 5px 6px !important; }
+   td { padding: 2px 6px !important; }                       /* top, right, bottom, left */
+   li { margin:  -6px 16px 4px !important; }                 /* top, right/left, bottom */
+   h1 { margin:  8px;        color: blue; font-size: 24px; } /* -6px 6px -6px; */
+   h2 { margin:  18px 0 8px; color: blue; font-size: 18px; } /* 12px 6px -8px; */
+   h3 { margin:  18px 0 8px; color: blue; font-size: 16px; }
+   hr { height:  4px; background-color: #b8a9a9; margin-top: 15px; }
+  pre { padding: 6px 9px !important; margin: 0px !important; background-color: #d8d2d2 }
+ code { background-color: #d8d2d2; }
+ blockquote {  padding: 15px 6px 2px !important; }
+.page-break { page-break-before: always; break-before: page; }
+details { margin-bottom: 16px; border: 1px solid #d0d7de; border-radius: 6px; padding: 10px 16px; }
+summary { font-size: 16px; font-weight: bold; color: blue; cursor: pointer; padding: 4px 0; }
+</style>
+<!-- ----------------------------------------------------------------------------- -->
+<!-- <div class="page-break"><hr style="border-inline-style: dashed;"></div> -->
+
+# App {AppName} Notes - Phase 1
+<div style="padding-left:20px;">Date: 202Y-MM-DD, Version: 1.10</div>

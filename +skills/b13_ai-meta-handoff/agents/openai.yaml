@@ -1,0 +1,12 @@
+interface:
+  display_name: AI Meta Handoff
+  short_description: Precise human + meta protocol for AI-to-AI development handoffs
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
