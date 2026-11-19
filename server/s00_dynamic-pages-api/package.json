@@ -1,0 +1,10 @@
+{
+  "name": "c00_home-app",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "node c00_server.mjs",
+    "pm2": "pm2 start c00_server.cjs --name c00-static"
+  },
+  "dependencies": { }
+}

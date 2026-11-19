@@ -1,0 +1,17 @@
+
+.env
+node_modules
+.DS_Store
+yarn.lock
+*.bak
+*_v[0-9]*
+*_t[0-9]*
+commit.no
+test-results
+*.mp4
+*.mov
+*.m4v
+*.avi
+*.mkv
+*.webm
+*.zip

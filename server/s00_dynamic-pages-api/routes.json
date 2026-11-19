@@ -1,0 +1,9 @@
+{
+  "routes": [
+    { "path": "/home",        "folder": "." },
+    { "path": "/home1",       "folder": "../../client1/c10_home-page" },
+    { "path": "/aeo-slides1", "folder": "../../client2/c27_aeo-generator-app" },
+    { "path": "/aeo-survey",  "folder": "../../client1/c11_aeo-survey-app" }
+  ],
+  "default": "/home"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "client0_apps",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "echo \"** Run: npm start in c00_home-app\""
+  },
+  "dependencies": {
+    "express": "4.21.2"
+  }
+}

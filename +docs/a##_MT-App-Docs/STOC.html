@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentation Viewer & TOC</title>
+    <!-- FontAwesome 4.7.0 matching Video Manager -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!-- Marked Markdown Parser & DOMPurify for clean client-side rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+    <style>
+        :root {
+            --sidebar-width: 360px;
+            --primary-blue: #007bff;
+            --primary-hover: #0056b3;
+            --bg-sidebar: #f8f9fa;
+            --border-color: #dee2e6;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: var(--text-dark);
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        /* ─── Left Sidebar ─── */
+        #sidebar {
+            width: var(--sidebar-width);
+            min-width: 280px;
+            max-width: 500px;
+            height: 100vh;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            flex-shrink: 0;
+            user-select: none;
+        }
+
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-color);
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .sidebar-header .title-area h2 {
+            margin: 0 0 4px 0;
+            font-size: 17px;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            word-break: break-word;
+        }
+
+        .sidebar-header .title-area p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .sidebar-search {
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--border-color);
+            background: #fff;
+        }
+
+        .sidebar-search input {
+            width: 100%;
+            padding: 6px 10px;
+            font-size: 13px;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            outline: none;
+        }
+        .sidebar-search input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        .file-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        .section-header {
+            padding: 12px 16px 4px 16px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
+            border-top: 1px solid #edf0f2;
+        }
+        .section-header:first-child {
+            border-top: none;
+            padding-top: 4px;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 14px 8px 16px;
+            gap: 8px;
+            border-left: 4px solid transparent;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+
+        .file-item:hover {
+            background: #e9ecef;
+        }
+
+        .file-item.active {
+            background: #e7f1ff;
+            border-left-color: var(--primary-blue);
+        }
+
+        .file-item.has-matches {
+            background: #fffdf0;
+        }
+        .file-item.has-matches:hover {
+            background: #fdf8d8;
+        }
+        .file-item.has-matches.active {
+            background: #e7f1ff;
+        }
+
+        .file-link {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            text-decoration: none;
+            color: inherit;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .file-title-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 6px;
+        }
+
+        .file-title {
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #333;
+        }
+
+        .match-badge {
+            font-size: 10px;
+            font-weight: bold;
+            background: #ffc107;
+            color: #000;
+            padding: 1px 6px;
+            border-radius: 10px;
+            flex-shrink: 0;
+            letter-spacing: 0.3px;
+        }
+
+        .file-item.active .file-title {
+            color: var(--primary-blue);
+        }
+
+        .file-subpath {
+            font-size: 11px;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: Consolas, monospace;
+        }
+
+        .action-icons {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid transparent;
+            cursor: pointer;
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #666;
+            line-height: 1;
+            transition: all 0.15s;
+        }
+
+        .icon-btn:hover {
+            background: #fff;
+            border-color: #ced4da;
+            color: var(--primary-blue);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+        }
+
+        /* ─── Main Content Area ─── */
+        #content-pane {
+            flex: 1;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            background: #ffffff;
+        }
+
+        .content-toolbar {
+            height: 52px;
+            padding: 0 24px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            flex-shrink: 0;
+        }
+
+        .toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            overflow: hidden;
+        }
+
+        .current-path {
+            font-family: Consolas, monospace;
+            font-size: 13px;
+            color: #333;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background: #f1f3f5;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .toolbar-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toolbar-btn {
+            padding: 6px 12px;
+            font-size: 13px;
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #495057;
+            transition: all 0.15s;
+        }
+
+        .toolbar-btn:hover {
+            background: #e9ecef;
+            color: var(--primary-blue);
+            border-color: #ced4da;
+        }
+
+        .content-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px 48px;
+        }
+
+        #markdown-view {
+            max-width: 960px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-size: 15px;
+        }
+
+        /* ─── Markdown Content & Details Styling ─── */
+        #markdown-view h1 { color: var(--primary-blue); font-size: 24px; margin-top: 10px; margin-bottom: 14px; border-bottom: 1px solid #eee; padding-bottom: 8px; }
+        #markdown-view h2 { color: var(--primary-blue); font-size: 20px; margin-top: 24px; margin-bottom: 12px; }
+        #markdown-view h3 { color: var(--primary-blue); font-size: 16px; margin-top: 18px; margin-bottom: 10px; }
+        #markdown-view pre { background-color: #ece7e7; padding: 12px; border-radius: 6px; overflow-x: auto; margin: 16px 0; font-size: 13px; }
+        #markdown-view code { background-color: #ece7e7; padding: 2px 5px; border-radius: 4px; font-family: Consolas, monospace; font-size: 13px; }
+        #markdown-view pre code { background: transparent; padding: 0; }
+        #markdown-view table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+        #markdown-view th, #markdown-view td { border: 1px solid var(--border-color); padding: 8px 12px; font-size: 13px; text-align: left; }
+        #markdown-view th { background: #f8f9fa; font-weight: bold; }
+        #markdown-view blockquote { margin: 16px 0; padding: 10px 16px; border-left: 4px solid var(--primary-blue); background: #f8f9fa; color: #555; }
+        #markdown-view hr { border: none; border-top: 1px solid var(--border-color); margin: 24px 0; }
+        #markdown-view details {
+            margin-bottom: 14px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 10px 16px;
+            background: #fff;
+            transition: background 0.15s ease;
+        }
+        #markdown-view details[open] {
+            background: #fafbfc;
+        }
+        #markdown-view summary {
+            font-size: 15px;
+            font-weight: bold;
+            color: var(--primary-blue);
+            cursor: pointer;
+            padding: 4px 0;
+            outline: none;
+        }
+        #markdown-view summary:hover {
+            color: var(--primary-hover);
+        }
+
+        /* ─── Search Match Highlight in Document ─── */
+        mark.doc-highlight {
+            background-color: #fff352;
+            color: #000;
+            padding: 1px 3px;
+            border-radius: 3px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            font-weight: 600;
+        }
+
+        .loading-state, .error-state, .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            color: var(--text-muted);
+            text-align: center;
+        }
+        .loading-state i, .error-state i, .empty-state i {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+        .error-state { color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <!-- Left Sidebar -->
+    <aside id="sidebar">
+        <div class="sidebar-header">
+            <div class="title-area">
+                <h2 id="folderTitle"><i class="fa fa-book"></i> Documentation</h2>
+                <p id="folderSubTitle">Active Markdown Files</p>
+            </div>
+            <button class="toolbar-btn" title="Rescan folder & refresh file list" onclick="refreshFolderScan()" style="padding: 6px 10px;">
+                <i class="fa fa-refresh" id="refreshIcon"></i>
+            </button>
+        </div>
+        <div class="sidebar-search">
+            <input type="text" id="searchInput" placeholder="Search documents..." oninput="filterFiles()">
+        </div>
+        <ul class="file-list" id="fileList">
+            <!-- Dynamically populated -->
+        </ul>
+    </aside>
+
+    <!-- Content Area -->
+    <main id="content-pane">
+        <div class="content-toolbar">
+            <div class="toolbar-left">
+                <i class="fa fa-file-text-o" style="color: var(--primary-blue); font-size: 16px;"></i>
+                <span class="current-path" id="currentDocPath">Select a document from the left sidebar</span>
+            </div>
+            <div class="toolbar-actions">
+                <button class="toolbar-btn" id="btnGlobalExpand" title="Expand all <details> in current document" onclick="expandCurrentDetails()">
+                    <i class="fa fa-plus-square-o"></i> Expand All
+                </button>
+                <button class="toolbar-btn" id="btnGlobalCollapse" title="Collapse all <details> in current document" onclick="collapseCurrentDetails()">
+                    <i class="fa fa-minus-square-o"></i> Collapse All
+                </button>
+                <button class="toolbar-btn" title="Reload active document" onclick="reloadCurrentDoc()">
+                    <i class="fa fa-refresh"></i>
+                </button>
+            </div>
+        </div>
+        <div class="content-scroll" id="contentScroll">
+            <div id="markdown-view">
+                <div class="empty-state">
+                    <i class="fa fa-file-text-o"></i>
+                    <p>Select any markdown file on the left to render its contents.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Static fallback catalog in case HTTP directory scan is unsupported (e.g. file:/// protocol)
+        const FALLBACK_CATALOG = { };   // .(61101.03.1 RAM Get rid of falback )
+
+        let currentActiveItem = null;
+        let discoveredGroups = [];
+        const fileContentCache = new Map(); // Cache of raw markdown text for search: relPath -> text
+
+        // Detect current parent folder name from URL path
+        function getCurrentFolderName() {
+            const pathParts = window.location.pathname.replace(/\/STOC\.html$/i, "").replace(/\/+$/, "").split("/");
+            return decodeURIComponent(pathParts.pop() || "Documentation");
+        }
+
+        // Section title formatter from folder name
+        function formatSectionName(dirName) {
+            if (!dirName || dirName === ".") return "Root Documents";
+            const clean = dirName.replace(/^[a-z0-9]+_/i, "").replace(/[-_]/g, " ");
+            return clean.charAt(0).toUpperCase() + clean.slice(1);
+        }
+
+        // Format friendly display title from filename
+        function formatDocTitle(fileName) {
+            return fileName
+                .replace(/\.md$/i, "")
+                .replace(/^[a-z0-9]+-[0-9]+_/i, "")
+                .replace(/_[uv][0-9].*$/i, "")
+                .replace(/[-_]/g, " ");
+        }
+
+        // Filter rule: excludes disabled versions (_v[0-9]) and assets/templates
+        function isEligibleMarkdownFile(relPath) {
+            const fileName = relPath.split("/").pop();
+            if (!fileName.toLowerCase().endsWith(".md")) return false;
+            // Exclude disabled/archived files with _v[0-9]
+            if (/_v[0-9]/i.test(fileName)) return false;
+            // Exclude +assets and template folders
+            if (relPath.includes("+assets") || relPath.toLowerCase().includes("template")) return false;
+            return true;
+        }
+
+        // Dynamic directory crawler (works with VS Code Live Server / static index listings)
+        async function scanDirectory(relDir = "") {
+            const endpoint = relDir ? `${relDir}/` : "./";
+            const response = await fetch(endpoint, { cache: "no-store" });
+            if (!response.ok) return { dirs: [], files: [] };
+
+            const html = await response.text();
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, "text/html");
+            const links = Array.from(doc.querySelectorAll("a"));
+
+            const dirs = [];
+            const files = [];
+
+            for (const a of links) {
+                let href = a.getAttribute("href");
+                if (!href) continue;
+
+                // Extract exact file/folder name from title, .name span, or last path segment
+                const nameSpan = a.querySelector(".name");
+                let name = a.getAttribute("title") || (nameSpan ? nameSpan.textContent.trim() : "");
+                if (!name) {
+                    name = decodeURIComponent(href.replace(/\/+$/, "").split("/").pop() || "");
+                }
+                name = name.trim();
+
+                if (!name || name === ".." || name === "." || name.startsWith("~")) continue;
+
+                const isDir = a.classList.contains("icon-directory") || 
+                              href.endsWith("/") || 
+                              (!name.includes(".") && !href.startsWith("#"));
+
+                if (isDir) {
+                    if (name !== ".." && name !== "." && !name.startsWith(".")) {
+                        const childDir = relDir ? `${relDir}/${name}` : name;
+                        if (!dirs.includes(childDir) && !childDir.includes("+assets")) {
+                            dirs.push(childDir);
+                        }
+                    }
+                } else if (name.toLowerCase().endsWith(".md")) {
+                    const filePath = relDir ? `${relDir}/${name}` : name;
+                    if (!files.includes(filePath)) {
+                        files.push(filePath);
+                    }
+                }
+            }
+            return { dirs, files };
+        }
+
+        // Recursively crawl all subfolders
+        async function crawlAllMarkdown() {
+            const allFiles = [];
+            const queue = [""];
+            const visited = new Set();
+
+            while (queue.length > 0) {
+                const dir = queue.shift();
+                if (visited.has(dir)) continue;
+                visited.add(dir);
+
+                try {
+                    const result = await scanDirectory(dir);
+                    for (const f of result.files) {
+                        if (isEligibleMarkdownFile(f)) {
+                            allFiles.push(f);
+                        }
+                    }
+                    for (const d of result.dirs) {
+                        if (!visited.has(d)) queue.push(d);
+                    }
+                } catch (e) {
+                    // Ignore scan error for individual folder
+                }
+            }
+            return allFiles;
+        }
+
+        // Group files by folder into sections
+        function buildGroupsFromFiles(filePaths) {
+            const sectionMap = new Map();
+
+            filePaths.forEach(path => {
+                const parts = path.split("/");
+                const fileName = parts.pop();
+                const folderName = parts.length ? parts.join("/") : "Root";
+                const secTitle = formatSectionName(folderName);
+
+                if (!sectionMap.has(secTitle)) {
+                    sectionMap.set(secTitle, []);
+                }
+
+                sectionMap.get(secTitle).push({
+                    name: fileName,
+                    relPath: path,
+                    title: formatDocTitle(fileName)
+                });
+            });
+
+            const groups = [];
+            sectionMap.forEach((items, section) => {
+                items.sort((a, b) => a.name.localeCompare(b.name));
+                groups.push({ section, items });
+            });
+            return groups;
+        }
+
+        // Discover documentation dynamically or fallback
+        async function loadCatalog() {
+            const folderName = getCurrentFolderName();
+            document.getElementById("folderTitle").innerHTML = `<i class="fa fa-book"></i> ${folderName}`;
+            document.title = `${folderName} — Table of Contents`;
+
+            let files = [];
+            try {
+                files = await crawlAllMarkdown();
+            } catch (err) {
+                console.warn("Live Server directory crawl unavailable, falling back:", err);
+            }
+
+            if (files && files.length > 0) {
+                discoveredGroups = buildGroupsFromFiles(files);
+            } else {
+                // Use fallback catalog if available for known folders, else empty
+                discoveredGroups = FALLBACK_CATALOG[folderName] || [];
+            }
+
+            // Warm up in-memory text cache in background for instant full-text searching
+            warmContentCache();
+
+            renderSidebar();
+
+            // Load initial document from URL hash or first item
+            const hash = location.hash ? decodeURIComponent(location.hash.substring(1)) : "";
+            const initialDoc = findDocByRelPath(hash) || (discoveredGroups[0] && discoveredGroups[0].items[0]);
+            if (initialDoc) {
+                loadDocument(initialDoc);
+            } else {
+                document.getElementById("markdown-view").innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa fa-folder-open-o"></i>
+                        <p>No active non-disabled Markdown files found in this folder.</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Fetch file content with caching
+        async function getFileContent(relPath) {
+            if (fileContentCache.has(relPath)) {
+                return fileContentCache.get(relPath);
+            }
+            try {
+                const res = await fetch(encodeURI(relPath), { cache: "no-store" });
+                if (!res.ok) return "";
+                const text = await res.text();
+                fileContentCache.set(relPath, text);
+                return text;
+            } catch (e) {
+                return "";
+            }
+        }
+
+        // Preload files in background so typing in search filters instantly
+        async function warmContentCache() {
+            const allItems = [];
+            discoveredGroups.forEach(g => g.items.forEach(it => allItems.push(it)));
+            for (const item of allItems) {
+                if (!fileContentCache.has(item.relPath)) {
+                    getFileContent(item.relPath);
+                }
+            }
+        }
+
+        // Count occurrences of search query in text
+        function countMatches(text, query) {
+            if (!query || !text) return 0;
+            const q = query.toLowerCase();
+            const lower = text.toLowerCase();
+            let count = 0;
+            let pos = 0;
+            while ((pos = lower.indexOf(q, pos)) !== -1) {
+                count++;
+                pos += q.length;
+            }
+            return count;
+        }
+
+        // Refresh folder scan
+        async function refreshFolderScan() {
+            const icon = document.getElementById("refreshIcon");
+            if (icon) icon.classList.add("fa-spin");
+            await loadCatalog();
+            setTimeout(() => {
+                if (icon) icon.classList.remove("fa-spin");
+            }, 400);
+        }
+
+        // Render sidebar items with full-text search & match counts
+        function renderSidebar(filterText = "") {
+            const listEl = document.getElementById("fileList");
+            listEl.innerHTML = "";
+            const filter = (filterText || document.getElementById("searchInput").value || "").trim();
+            const filterLower = filter.toLowerCase();
+
+            if (!discoveredGroups.length) {
+                listEl.innerHTML = `<li style="padding: 16px; color: #888; font-size: 13px;">No documents discovered.<br>* Are you using a web server?</li>`;
+                return;
+            }
+
+            discoveredGroups.forEach(group => {
+                const matchingItems = [];
+
+                group.items.forEach(item => {
+                    const titleMatch = !filterLower || 
+                                       item.name.toLowerCase().includes(filterLower) || 
+                                       item.title.toLowerCase().includes(filterLower) ||
+                                       item.relPath.toLowerCase().includes(filterLower);
+
+                    const content = fileContentCache.get(item.relPath) || "";
+                    const contentOccurrences = filterLower ? countMatches(content, filterLower) : 0;
+                    const isMatched = titleMatch || contentOccurrences > 0;
+
+                    if (isMatched) {
+                        matchingItems.push({
+                            item,
+                            matches: contentOccurrences
+                        });
+                    }
+                });
+
+                if (matchingItems.length === 0) return;
+
+                const secHeader = document.createElement("li");
+                secHeader.className = "section-header";
+                secHeader.textContent = group.section;
+                listEl.appendChild(secHeader);
+
+                matchingItems.forEach(({ item, matches }) => {
+                    const li = document.createElement("li");
+                    const isActive = currentActiveItem && currentActiveItem.relPath === item.relPath;
+                    const hasMatches = filterLower && matches > 0;
+                    li.className = "file-item" + (isActive ? " active" : "") + (hasMatches ? " has-matches" : "");
+                    li.id = `item-${sanitizeId(item.relPath)}`;
+
+                    // File Link info
+                    const linkDiv = document.createElement("div");
+                    linkDiv.className = "file-link";
+                    linkDiv.onclick = () => loadDocument(item);
+
+                    const matchBadgeHtml = hasMatches 
+                        ? `<span class="match-badge" title="${matches} match${matches === 1 ? '' : 'es'} found in file">${matches}</span>` 
+                        : "";
+
+                    linkDiv.innerHTML = `
+                        <div class="file-title-row">
+                            <span class="file-title" title="${item.title}">${item.title}</span>
+                            ${matchBadgeHtml}
+                        </div>
+                        <span class="file-subpath" title="${item.name}">${item.name}</span>
+                    `;
+
+                    // Expand / Collapse Action Icons
+                    const actionsDiv = document.createElement("div");
+                    actionsDiv.className = "action-icons";
+
+                    const expandBtn = document.createElement("button");
+                    expandBtn.className = "icon-btn";
+                    expandBtn.title = "Expand all <details> in this file";
+                    expandBtn.innerHTML = '<i class="fa fa-plus-square-o"></i>';
+                    expandBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        expandDocDetails(item);
+                    };
+
+                    const collapseBtn = document.createElement("button");
+                    collapseBtn.className = "icon-btn";
+                    collapseBtn.title = "Collapse all <details> in this file";
+                    collapseBtn.innerHTML = '<i class="fa fa-minus-square-o"></i>';
+                    collapseBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        collapseDocDetails(item);
+                    };
+
+                    actionsDiv.appendChild(expandBtn);
+                    actionsDiv.appendChild(collapseBtn);
+
+                    li.appendChild(linkDiv);
+                    li.appendChild(actionsDiv);
+                    listEl.appendChild(li);
+                });
+            });
+        }
+
+        function sanitizeId(str) {
+            return str.replace(/[^a-zA-Z0-9-_]/g, "_");
+        }
+
+        async function filterFiles() {
+            const query = document.getElementById("searchInput").value;
+            // Ensure any un-cached files get loaded
+            const uncached = [];
+            discoveredGroups.forEach(g => g.items.forEach(it => {
+                if (!fileContentCache.has(it.relPath)) uncached.push(it);
+            }));
+            if (uncached.length > 0) {
+                await Promise.all(uncached.map(it => getFileContent(it.relPath)));
+            }
+            renderSidebar(query);
+            // Re-highlight current doc if open
+            if (currentActiveItem) {
+                highlightMatchesInDoc(query);
+            }
+        }
+
+        // Load and render Markdown
+        async function loadDocument(item, expandOnLoad = null) {
+            currentActiveItem = item;
+            document.querySelectorAll(".file-item").forEach(el => el.classList.remove("active"));
+            const activeLi = document.getElementById(`item-${sanitizeId(item.relPath)}`);
+            if (activeLi) activeLi.classList.add("active");
+
+            document.getElementById("currentDocPath").textContent = item.relPath;
+            const view = document.getElementById("markdown-view");
+            view.innerHTML = `
+                <div class="loading-state">
+                    <i class="fa fa-spinner fa-spin"></i>
+                    <p>Loading ${item.name}...</p>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(encodeURI(item.relPath), { cache: "no-store" });
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status} ${response.statusText}`);
+                }
+                let mdText = await response.text();
+
+                // Update cache with fetched text
+                fileContentCache.set(item.relPath, mdText);
+
+                // Strip embedded <style> tags from session docs so they don't break page layout
+                mdText = mdText.replace(/<style[\s\S]*?<\/style>/gi, "");
+
+                // Configure marked options
+                marked.setOptions({
+                    gfm: true,
+                    breaks: true
+                });
+
+                const rawHtml = marked.parse(mdText);
+                // Sanitize rendered HTML while preserving details and summary tags
+                const cleanHtml = DOMPurify.sanitize(rawHtml, {
+                    ADD_TAGS: ["details", "summary", "style"],
+                    ADD_ATTR: ["open", "style", "class", "id", "target"]
+                });
+
+                view.innerHTML = cleanHtml;
+                document.getElementById("contentScroll").scrollTop = 0;
+
+                // Adjust relative links inside document to work cleanly
+                adjustDocumentLinks(item.relPath);
+
+                // Highlight search matches if a search is active
+                const query = document.getElementById("searchInput").value;
+                if (query && query.trim()) {
+                    highlightMatchesInDoc(query.trim());
+                }
+
+                // Handle post-load expand/collapse requested by sidebar icons
+                if (expandOnLoad === true) {
+                    setDetailsOpen(true);
+                } else if (expandOnLoad === false) {
+                    setDetailsOpen(false);
+                }
+
+                // Update URL hash without full reload
+                location.hash = encodeURIComponent(item.relPath);
+            } catch (err) {
+                view.innerHTML = `
+                    <div class="error-state">
+                        <i class="fa fa-exclamation-triangle"></i>
+                        <p><strong>Failed to load document:</strong><br/>${item.relPath}</p>
+                        <p style="font-size: 13px; color: #888;">${err.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Sidebar icon actions
+        async function expandDocDetails(item) {
+            if (!currentActiveItem || currentActiveItem.relPath !== item.relPath) {
+                await loadDocument(item, true);
+            } else {
+                setDetailsOpen(true);
+            }
+        }
+
+        async function collapseDocDetails(item) {
+            if (!currentActiveItem || currentActiveItem.relPath !== item.relPath) {
+                await loadDocument(item, false);
+            } else {
+                setDetailsOpen(false);
+            }
+        }
+
+        // Highlight search matches within rendered document text nodes
+        function highlightMatchesInDoc(query) {
+            const view = document.getElementById("markdown-view");
+            if (!view) return;
+
+            // Remove existing highlight marks
+            const existingMarks = view.querySelectorAll("mark.doc-highlight");
+            existingMarks.forEach(m => {
+                const parent = m.parentNode;
+                parent.replaceChild(document.createTextNode(m.textContent), m);
+                parent.normalize();
+            });
+
+            const q = (query || "").trim();
+            if (!q) return;
+
+            // Walk through text nodes and wrap occurrences
+            const walker = document.createTreeWalker(
+                view,
+                NodeFilter.SHOW_TEXT,
+                {
+                    acceptNode(node) {
+                        if (!node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+                        const parentTag = node.parentNode ? node.parentNode.nodeName.toLowerCase() : "";
+                        if (parentTag === "script" || parentTag === "style" || parentTag === "mark") {
+                            return NodeFilter.FILTER_REJECT;
+                        }
+                        return NodeFilter.FILTER_ACCEPT;
+                    }
+                }
+            );
+
+            const nodesToProcess = [];
+            while (walker.nextNode()) {
+                nodesToProcess.push(walker.currentNode);
+            }
+
+            let firstMatchEl = null;
+            const qLower = q.toLowerCase();
+
+            nodesToProcess.forEach(textNode => {
+                const val = textNode.nodeValue;
+                const lower = val.toLowerCase();
+                let startPos = 0;
+                let matchIdx = lower.indexOf(qLower, startPos);
+
+                if (matchIdx === -1) return;
+
+                const frag = document.createDocumentFragment();
+
+                while (matchIdx !== -1) {
+                    if (matchIdx > startPos) {
+                        frag.appendChild(document.createTextNode(val.substring(startPos, matchIdx)));
+                    }
+                    const mark = document.createElement("mark");
+                    mark.className = "doc-highlight";
+                    mark.textContent = val.substring(matchIdx, matchIdx + q.length);
+                    frag.appendChild(mark);
+
+                    if (!firstMatchEl) firstMatchEl = mark;
+
+                    // Automatically open any parent <details> that holds this match
+                    let p = textNode.parentNode;
+                    while (p && p !== view) {
+                        if (p.nodeName.toLowerCase() === "details") {
+                            p.setAttribute("open", "");
+                        }
+                        p = p.parentNode;
+                    }
+
+                    startPos = matchIdx + q.length;
+                    matchIdx = lower.indexOf(qLower, startPos);
+                }
+
+                if (startPos < val.length) {
+                    frag.appendChild(document.createTextNode(val.substring(startPos)));
+                }
+
+                if (textNode.parentNode) {
+                    textNode.parentNode.replaceChild(frag, textNode);
+                }
+            });
+
+            // Scroll to the first match smoothly if found
+            if (firstMatchEl) {
+                firstMatchEl.scrollIntoView({ behavior: "smooth", block: "center" });
+            }
+        }
+
+        // Toolbar global actions
+        function expandCurrentDetails() {
+            setDetailsOpen(true);
+        }
+
+        function collapseCurrentDetails() {
+            setDetailsOpen(false);
+        }
+
+        function setDetailsOpen(isOpen) {
+            const allDetails = document.querySelectorAll("#markdown-view details");
+            allDetails.forEach(d => {
+                if (isOpen) {
+                    d.setAttribute("open", "");
+                } else {
+                    d.removeAttribute("open");
+                }
+            });
+        }
+
+        function reloadCurrentDoc() {
+            if (currentActiveItem) {
+                loadDocument(currentActiveItem);
+            }
+        }
+
+        // Resolve relative links in document to remain within TOC
+        function adjustDocumentLinks(baseRelPath) {
+            const links = document.querySelectorAll("#markdown-view a");
+            const baseDir = baseRelPath.includes("/") ? baseRelPath.substring(0, baseRelPath.lastIndexOf("/")) : "";
+
+            links.forEach(a => {
+                const href = a.getAttribute("href");
+                if (!href || href.startsWith("http://") || href.startsWith("https://") || href.startsWith("#") || href.startsWith("mailto:")) {
+                    return;
+                }
+                let targetRel = href.replace(/^(\.\/|\/)/, "");
+                if (baseDir && !href.startsWith("/")) {
+                    targetRel = `${baseDir}/${targetRel}`;
+                }
+                targetRel = targetRel.replace(/[^\/]+\/\.\.\//g, "");
+
+                const found = findDocByRelPath(targetRel);
+                if (found) {
+                    a.style.cursor = "pointer";
+                    a.onclick = (e) => {
+                        e.preventDefault();
+                        loadDocument(found);
+                    };
+                } else {
+                    a.setAttribute("target", "_blank");
+                }
+            });
+        }
+
+        function findDocByRelPath(relPath) {
+            for (const group of discoveredGroups) {
+                for (const item of group.items) {
+                    if (item.relPath.toLowerCase() === relPath.toLowerCase() || item.name.toLowerCase() === relPath.toLowerCase()) {
+                        return item;
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Initial setup on load
+        window.addEventListener("DOMContentLoaded", () => {
+            loadCatalog();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+apps:
+  - name: "JSCW-46311"
+    script: "live-server"
+    cwd: "/Users/Shared/Repos/JPSessions_/dev01-robin/client1/c11_editor1-app"
+    args: "--port=46311 --no-browser --watch=."
+    interpreter: "none"
+    exec_mode: "fork"
+    instances: 1
+    autorestart: true
+    watch: false
+    time: true
+    log_date_format: "YYYY-MM-DD HH:mm:ss Z"
+    env:
+      NODE_ENV: "development"
+      PORT: 46311
