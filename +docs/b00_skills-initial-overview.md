@@ -1,3 +1,21 @@
+<style>
+   th { padding: 5px 6px !important; }
+   td { padding: 2px 6px !important; }                       /* top, right, bottom, left */
+   li { margin:  -6px 16px 4px !important; }                 /* top, right/left, bottom */
+   h1 { margin:  8px;        color: blue; font-size: 24px; } /* -6px 6px -6px; */
+   h2 { margin:  18px 0 8px; color: blue; font-size: 18px; } /* 12px 6px -8px; */
+   h3 { margin:  18px 0 8px; color: blue; font-size: 16px; }
+   hr { height:  4px; background-color: #b8a9a9; margin-top: 15px; }
+  pre { padding: 6px 9px !important; margin: 0px !important; background-color: #d8d2d2 }
+ code { background-color: #d8d2d2; }
+ blockquote {  padding: 15px 6px 2px !important; }
+.page-break { page-break-before: always; break-before: page; }
+details { margin-bottom: 16px; border: 1px solid #d0d7de; border-radius: 6px; padding: 10px 16px; }
+summary { font-size: 16px; font-weight: bold; color: blue; cursor: pointer; padding: 4px 0; }
+</style>
+<!-- ----------------------------------------------------------------------------- -->
+<!-- <div class="page-break"><hr style="border-inline-style: dashed;"></div> -->
+
 # +skills: Initial Overview
 
 Date: 2026-11-19. Companion to `a00_app-initial-overview.md` (in this folder).
@@ -10,16 +28,16 @@ After the Czech-to-English translation (commit `e429344` and later edits), the o
 
 ## 2. Inventory
 
-| Folder | Skill name (`name:`) | Version | Lines | Purpose |
-|---|---|---|---|---|
-| `b01_save-session` | none (scripts) | n/a | 1,248 | Export an AI chat session to a collapsible Markdown transcript. Three variants: Antigravity (`-agy.mjs`), Kiro (`.kiro.mjs`), VS Code / GitHub Copilot (`.github.ps1`). |
-| `b11_partner-collaboration` | `partnerska-spoluprace` | 1.4.0 | 275 | Partner-style dialogue: one question at a time, working interpretation, recommendation with reasons, separation of facts, recommendations and assumptions. |
-| `b12_application-development` | `application-development` | 1.13.0 | 490 + 9 references + 2 scripts | Spec-driven software workflow joining Chat, Git, Codex and user acceptance testing. |
-| `b13_ai-meta-handoff` | `ai-meta-handoff` | 0.7.0 (protocol 0.4.1) | 204 + 6 references + 2 scripts | Two-layer HUMAN + META handoff between AI agents, with a structural validator. |
-| `b14_master-deployment` | `master-deployment` | 1.4.0 | 235 | Master → Deployment product model: versioning, licensing, ownership, data separation. |
-| `b15_skill-creator` | `skill-creator` | n/a | 349 + 3 scripts | Guide and scripts for creating and packaging skills (Apache 2.0). |
-| `b16_prompt-evaluation` | `prompt-evaluation` | 2.2.0 | 256 (+254 Czech original) | Scores a prompt 0 to 10 on five questions and offers a 1-2-3 menu (run, complete, analyze). |
-| `b17_accounting-assistants` | `ucetni-asistent` | 3.0.0 | 419 | Assistant for a Czech accounting office: current-law verification, primary sources, citation rules. |
+| Folder                        | Skill name (`name:`)      | Purpose  of the skill                                                                                                                                                   | Lines               | Version |
+|-------------------------------|---------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------|---------|
+| `b01_save-session`            | none (scripts)            | Export an AI chat session to a collapsible Markdown transcript. Three variants: Antigravity (`-agy.mjs`), Kiro (`.kiro.mjs`), VS Code / GitHub Copilot (`.github.ps1`). | 1,248               | n/a     |
+| `b11_partner-collaboration`   | `partnerska-spoluprace`   | Partner-style dialogue: one question at a time, working interpretation, recommendation with reasons, separation of facts, recommendations and assumptions.              |   275               | 1.4.0   |
+| `b12_application-development` | `application-development` | Spec-driven software workflow joining Chat, Git, Codex and user acceptance testing.                                                                                     |   490 + 9/2 scripts | 1.13.0  |
+| `b13_ai-meta-handoff`         | `ai-meta-handoff`         | Two-layer HUMAN + META handoff between AI agents, with a structural validator.                                                                                          |   204 + 6/2 scripts | 0.7.0   |
+| `b14_master-deployment`       | `master-deployment`       | Master → Deployment product model: versioning, licensing, ownership, data separation.                                                                                   |   235               | 1.4.0   |
+| `b15_skill-creator`           | `skill-creator`           | Guide and scripts for creating and packaging skills (Apache 2.0).                                                                                                       |   349 + 3 scripts   | n/a     |
+| `b16_prompt-evaluation`       | `prompt-evaluation`       | Scores a prompt 0 to 10 on five questions and offers a 1-2-3 menu (run, complete, analyze).                                                                             |   256               | 2.2.0   |
+| `b17_accounting-assistants`   | `ucetni-asistent`         | Assistant for a Czech accounting office: current-law verification, primary sources, citation rules.                                                                     |   419               | 3.0.0   |
 
 Each skill folder (except `b01`) has `SKILL.md`, `agents/openai.yaml` and `assets/icon.svg`. The `!_...` subfolders are `.gitkeep` placeholders.
 

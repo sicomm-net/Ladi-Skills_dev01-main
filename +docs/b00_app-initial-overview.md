@@ -1,6 +1,25 @@
-# Ladi-Skills_dev01-main: Initial Overview
+<style>
+   th { padding: 5px 6px !important; }
+   td { padding: 2px 6px !important; }                       /* top, right, bottom, left */
+   li { margin:  -6px 16px 4px !important; }                 /* top, right/left, bottom */
+   h1 { margin:  8px;        color: blue; font-size: 24px; } /* -6px 6px -6px; */
+   h2 { margin:  18px 0 8px; color: blue; font-size: 18px; } /* 12px 6px -8px; */
+   h3 { margin:  18px 0 8px; color: blue; font-size: 16px; }
+   hr { height:  4px; background-color: #b8a9a9; margin-top: 15px; }
+  pre { padding: 6px 9px !important; margin: 0px !important; background-color: #d8d2d2 }
+ code { background-color: #d8d2d2; }
+ blockquote {  padding: 15px 6px 2px !important; }
+.page-break { page-break-before: always; break-before: page; }
+details { margin-bottom: 16px; border: 1px solid #d0d7de; border-radius: 6px; padding: 10px 16px; }
+summary { font-size: 16px; font-weight: bold; color: blue; cursor: pointer; padding: 4px 0; }
+</style>
+<!-- ----------------------------------------------------------------------------- -->
+<!-- <div class="page-break"><hr style="border-inline-style: dashed;"></div> -->
 
-Date: 2026-11-19. Reviewed at commit `e429344` plus uncommitted translation edits.
+# Ladi-Skills_dev01-main: Initial Overview
+<div style="padding-left:20px;">Date: 2026-11-19, Version: 1.10</div>
+
+Reviewed at commit `e429344` plus uncommitted translation edits.
 Scope: the whole repository except `+skills`, which is covered in `b00_skills-initial-overview.md` (in this folder).
 
 ## 1. What this repo is
@@ -75,12 +94,13 @@ Things to know before using it:
 - It needs `jq`.
 - It is hard-coded for `nPrj=29` and a development stage.
 
+<div class="page-break"><hr style="border-inline-style: dashed;"></div>
+
 ## 6. AI-agent configuration
 
 - `.agents/rules/AGENTS.md`: supervisor/orchestrator protocol that delegates all work to sub-agents and requires an audit of each change.
-- `.agents/rules/Conversation-Rules.md`: concise answers, one step at a time, quiet mode by default.
-- `.agents/rules/Repository-Rules.md`: commit message format `.(<version>_<message>` using `.agents/scripts/get-version.sh`; never edit `*_v[0-9]*` files; `.env` for secrets only; `_config.js` with `DATA_MODE = 'Mock' | 'Live'`.
-- `.agents/mcp_config.json`: one MCP server, `freecad-mcp` (via `uvx`). It is unrelated to anything else in the repo.
+- `.agents/rules/Conversation-Rules.md`: concise answers, one step at a time, quiet mode by default when dispatching sub-agents.
+- `.agents/rules/Repository-Rules.md`: commit message format `.(<version>_<message>` using `.agents/scripts/get-version.sh`; never edit `*_v[0-9]*` files; `.env` for secrets only; `[cs]##_config.js` with `DATA_MODE = 'Mock' | 'Live'`.
 - `.kiro/settings/mcp.json`: empty. `.kiro/skills/save-session` is the Kiro version of the save-session skill.
 
 ## 7. Issues found
